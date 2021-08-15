@@ -1,0 +1,106 @@
+script Scn.Step.Chara.Propeller.Propeller.Setting
+{
+	util class Scn.Step.Chara.Propeller.Propeller.Setting
+	{
+		delegate void Init(Scn.Step.Chara.SettingData)
+		{
+			fenter 7, 1, 0
+			ldsrsr r1, r0
+			call   r1, Scn.Step.Chara.SettingUtil.InitEnemy(Scn.Step.Chara.SettingData)
+			ldsr2  r1, r0, %ABILITY_ID%
+			calltv r1, Scn.Step.Chara.SettingData.setAbilityKind(int)
+			ldsrsr r1, r0
+			ldsrc4 r3, 0x1
+			ldsrsv r4, Scn.Step.Chara.HitPointUtil.HitPointTable
+			ldsr2  r5, r3, 0x10
+			astidx r3, r6
+			aridx  r4, r3
+			ldsra4 r2, r4
+			calltv r1, Scn.Step.Chara.SettingData.setHitPoint(int)
+			fleave r0
+		}
+		
+		delegate void InitAfterCreateModule(Scn.Step.Chara.Obj)
+		{
+			fenter 11, 1, 0
+			ldsrsr r1, r0
+			call   r1, Scn.Step.Chara.SettingUtil.InitEnemyAfterCreateModule(Scn.Step.Chara.Obj)
+			ldsrsr r4, r0
+			calltr r3, Scn.Step.Chara.Obj.model()
+			calltr r2, Scn.Step.CharaUtil.Model.rotCtrl()
+			calltr r1, Scn.Step.CharaUtil.ModelRotCtrlSet.rotH()
+			sppsh  r2, Hel.Util.Angle
+			ldsrc4 r3, 0x0
+			callnv r2, Hel.Util.Angle.FromDeg(float)
+			calltv r1, GObj.RotCtrl2d.setRotTargetDefault(const ref Hel.Util.Angle)
+			sppop  r2, Hel.Util.Angle
+			ldsrsr r2, r0
+			calltr r1, Scn.Step.Chara.Obj.nururiCtrl()
+			ldsrc4 r2, 0x2
+			calltv r1, Scn.Step.Chara.NururiCtrl.changeSetting(Nururi.Mode)
+			ldsrsr r2, r0
+			calltr r1, Scn.Step.Chara.Obj.objCollReactor()
+			ldsrca r2, "Scn.Step.Chara.Propeller.Propeller.ObjCollReact.OnDamaged"
+			calltv r1, Scn.Step.Chara.ObjCollReactor.setCustomEntryPointOnDamage(string)
+			ldsrsr r5, r0
+			calltr r4, Scn.Step.Chara.Obj.objColl()
+			calltr r3, Scn.Step.Chara.ObjColl.bodyColl()
+			calltr r2, Scn.Step.OColl.BodyColl.attack()
+			ldsrsr r1, r2
+			ldsrsr r4, r1
+			calltr r3, Scn.Step.OColl.Attack.attackDataRootDefault()
+			ldsr2  r2, r3, r2
+			ldsrc4 r4, 0x3
+			calltv r3, OColl.AttackData.setEffectType(int)
+			ldsrsr r3, r2
+			ldsrsv r4, Scn.Step.OColl.Element.Fire
+			calltv r3, OColl.AttackData.addElement(uint)
+			ldsr2  r3, r2, 0x8
+			calltv r3, OColl.AttackData.setBlowType(int)
+			ldsrsr r3, r2
+			sppsh  r4, Hel.Util.Angle
+			ldsrc4 r5, 0x42960000
+			callnv r4, Hel.Util.Angle.FromDeg(float)
+			calltv r3, OColl.AttackData.setBlowAngle(const ref Hel.Util.Angle)
+			sppop  r4, Hel.Util.Angle
+			ldsr2  r3, r2, 0x1
+			calltv r3, OColl.AttackData.setDenudeLv(int)
+			ldsrsr r3, r1
+			calltv r3, Scn.Step.OColl.Attack.resetAttackDataToDefault()
+			ldsrc4 r3, 0x3F4CCCCD
+			sppsh  r4, Hel.Geo.Aabb3
+			sppshz r5, Hel.Geo.Aabb3
+			ldsrsr r6, r5
+			sppsh  r7, Hel.Vector3
+			ldsrsr r9, r0
+			calltr r8, Scn.Step.Chara.Obj.location()
+			calltr r7, GObj.Location.toCenter()const
+			ldsr2  r8, r3, r3
+			ldsrsr r10, r3
+			calltv r6, Hel.Geo.Aabb3.this(const ref Hel.Vector3,float,float,float)
+			mcopys r4, r5, Hel.Geo.Aabb3
+			sppop  r7, Hel.Vector3
+			sppop  r5, Hel.Geo.Aabb3
+			ldsr2  r5, r0, r4
+			ldsrsr r10, r5
+			calltr r9, Scn.Step.Chara.Obj.objColl()
+			calltr r8, Scn.Step.Chara.ObjColl.bodyColl()
+			ldsr2  r7, r8, r7
+			calltv r8, Scn.Step.OColl.BodyColl.setStateNormal()
+			ldsrsr r8, r7
+			calltv r8, Scn.Step.OColl.BodyColl.clearNode()
+			ldsrsr r8, r7
+			sppsh  r9, OColl.NodeRecipe
+			ldsrsr r10, r6
+			callnv r9, OColl.NodeRecipe.Create(const ref Hel.Geo.Aabb3)
+			calltv r8, Scn.Step.OColl.BodyColl.addNode(const ref OColl.NodeRecipe)
+			sppop  r9, OColl.NodeRecipe
+			sppop  r4, Hel.Geo.Aabb3
+			ldsrsr r2, r0
+			calltr r1, Scn.Step.Chara.Obj.vacuumReceiver()
+			ldsrc4 r2, %ELEMENT_ID%
+			calltv r1, Scn.Step.Vacuum.Receiver.setAbilityElement(uint)
+			fleave r0
+		}
+	}
+}

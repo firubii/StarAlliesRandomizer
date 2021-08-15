@@ -1,0 +1,123 @@
+script Scn.Step.Chara.Dekabu.Dekabu.Setting
+{
+	util class Scn.Step.Chara.Dekabu.Dekabu.Setting
+	{
+		delegate void Init(Scn.Step.Chara.SettingData)
+		{
+			fenter 7, 1, 0
+			ldsrsr r1, r0
+			call   r1, Scn.Step.Chara.SettingUtil.InitEnemy(Scn.Step.Chara.SettingData)
+			ldsr2  r1, r0, %ABILITY_ID%
+			calltv r1, Scn.Step.Chara.SettingData.setAbilityKind(int)
+			ldsrsr r1, r0
+			ldsrc4 r3, 0x7
+			ldsrsv r4, Scn.Step.Chara.HitPointUtil.HitPointTable
+			ldsr2  r5, r3, 0x10
+			astidx r3, r6
+			aridx  r4, r3
+			ldsra4 r2, r4
+			calltv r1, Scn.Step.Chara.SettingData.setHitPoint(int)
+			ldsr2  r1, r0, 0x1
+			calltv r1, Scn.Step.Chara.SettingData.setVacuumResistLv(int)
+			ldsr2  r1, r0, 0x2
+			calltv r1, Scn.Step.Chara.SettingData.setVacuumEatWeight(int)
+			ldsrsr r1, r0
+			ldsrsv r2, Scn.Step.CreditUtil.LargeEnemyScore
+			calltv r1, Scn.Step.Chara.SettingData.setCreditScore(int)
+			fleave r0
+		}
+		
+		delegate void InitAfterCreateModule(Scn.Step.Chara.Obj)
+		{
+			fenter 10, 1, 0
+			ldsrsr r1, r0
+			call   r1, Scn.Step.Chara.SettingUtil.InitEnemyAfterCreateModule(Scn.Step.Chara.Obj)
+			ldsrsr r4, r0
+			calltr r3, Scn.Step.Chara.Obj.model()
+			calltr r2, Scn.Step.CharaUtil.Model.rotCtrl()
+			calltr r1, Scn.Step.CharaUtil.ModelRotCtrlSet.rotH()
+			sppsh  r2, Hel.Util.Angle
+			ldsrc4 r3, 0x0
+			callnv r2, Hel.Util.Angle.FromDeg(float)
+			calltv r1, GObj.RotCtrl2d.setRotTargetDefault(const ref Hel.Util.Angle)
+			sppop  r2, Hel.Util.Angle
+			ldsrsr r4, r0
+			calltr r3, Scn.Step.Chara.Obj.model()
+			calltr r2, Scn.Step.CharaUtil.Model.rotCtrl()
+			calltr r1, Scn.Step.CharaUtil.ModelRotCtrlSet.rotH()
+			ldsrc4 r2, 0x3F800000
+			calltv r1, GObj.RotCtrl2d.setRotIntpRateDefault(float)
+			ldsrsr r2, r0
+			calltr r1, Scn.Step.Chara.Obj.location()
+			sppshz r2, Hel.Vector3
+			ldsr2  r3, r2, 0x0
+			ldsr2  r5, 0x3F800000, 0x0
+			calltv r3, Hel.Vector3.this(float,float,float)
+			calltv r1, GObj.Location.setToCenter(const ref Hel.Vector3)
+			sppop  r2, Hel.Vector3
+			ldsrsr r2, r0
+			calltr r1, Scn.Step.Chara.Obj.culling()
+			sppshz r2, Hel.Geo.Aabb2
+			ldsrsr r3, r2
+			sppshz r4, Hel.Vector2
+			ldsr2  r5, r4, 0x0
+			ldsrc4 r7, 0x3FC00000
+			calltv r5, Hel.Vector2.this(float,float)
+			ldsr2  r5, 0x40E00000, 0x41200000
+			calltv r3, Hel.Geo.Aabb2.this(const ref Hel.Vector2,float,float)
+			calltv r1, Scn.Step.CharaUtil.Culling.setTargetRect(const ref Hel.Geo.Aabb2)
+			sppop  r4, Hel.Vector2
+			sppop  r2, Hel.Geo.Aabb2
+			ldsrsr r3, r0
+			callnv r2, Scn.Step.Chara.SizeUtil.GetModelScaleBySizeType(const Scn.Step.Chara.Obj)
+			ldsrsr r1, r2
+			sppshz r2, Hel.Geo.Aabb3
+			ldsrsr r3, r2
+			sppshz r4, Hel.Vector3
+			ldsr2  r5, r4, 0x3F4CCCCD
+			negf32 r6, r6
+			mulf32 r6, r6, r1
+			ldsr2  r7, 0x0, 0x3F4CCCCD
+			negf32 r8, r8
+			calltv r5, Hel.Vector3.this(float,float,float)
+			sppshz r5, Hel.Vector3
+			ldsrsr r6, r5
+			mulf32 r7, 0x3F4CCCCD, r1
+			mulf32 r8, 0x3FCCCCCD, r1
+			ldsrc4 r9, 0x3F4CCCCD
+			calltv r6, Hel.Vector3.this(float,float,float)
+			calltv r3, Hel.Geo.Aabb3.this(const ref Hel.Vector3,const ref Hel.Vector3)
+			sppop  r5, Hel.Vector3
+			sppop  r4, Hel.Vector3
+			ldsrsr r5, r0
+			calltr r4, Scn.Step.Chara.Obj.objColl()
+			calltr r3, Scn.Step.Chara.ObjColl.bodyColl()
+			calltv r3, Scn.Step.OColl.BodyColl.clearNode()
+			ldsrsr r5, r0
+			calltr r4, Scn.Step.Chara.Obj.objColl()
+			calltr r3, Scn.Step.Chara.ObjColl.bodyColl()
+			sppsh  r4, OColl.NodeRecipe
+			ldsrsr r5, r2
+			callnv r4, OColl.NodeRecipe.Create(const ref Hel.Geo.Aabb3)
+			calltv r3, Scn.Step.OColl.BodyColl.addNode(const ref OColl.NodeRecipe)
+			sppop  r4, OColl.NodeRecipe
+			ldsrsr r4, r0
+			calltr r3, Scn.Step.Chara.Obj.vacuumReceiver()
+			ldsrsr r5, r2
+			calltr r4, Hel.Geo.Aabb3.width()const
+			ldsrsr r6, r2
+			calltr r5, Hel.Geo.Aabb3.height()const
+			calltv r3, B5E23C7D
+			ldsrsr r4, r0
+			calltr r3, Scn.Step.Chara.Obj.bodyRadiusCtrl()
+			ldsrc4 r4, 0x3FA66666
+			calltv r3, Scn.Step.Chara.BodyRadiusCtrl.setBaseRadius(float)
+			sppop  r2, Hel.Geo.Aabb3
+			ldsrsr r2, r0
+			calltr r1, Scn.Step.Chara.Obj.vacuumReceiver()
+			ldsrc4 r2, %ELEMENT_ID%
+			calltv r1, Scn.Step.Vacuum.Receiver.setAbilityElement(uint)
+			fleave r0
+		}
+	}
+}

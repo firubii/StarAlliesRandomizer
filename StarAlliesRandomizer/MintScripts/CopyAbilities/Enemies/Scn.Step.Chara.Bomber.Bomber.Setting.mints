@@ -1,0 +1,92 @@
+script Scn.Step.Chara.Bomber.Bomber.Setting
+{
+	util class Scn.Step.Chara.Bomber.Bomber.Setting
+	{
+		delegate void Init(Scn.Step.Chara.SettingData)
+		{
+			fenter 7, 1, 0
+			ldsrsr r1, r0
+			call   r1, Scn.Step.Chara.SettingUtil.InitEnemy(Scn.Step.Chara.SettingData)
+			ldsrsr r1, r0
+			sppshz r2, Hel.Vector3
+			ldsr2  r3, r2, 0x0
+			ldsr2  r5, 0x3F000000, 0x0
+			calltv r3, Hel.Vector3.this(float,float,float)
+			calltv r1, Scn.Step.Chara.SettingData.setCenterOffs(const ref Hel.Vector3)
+			sppop  r2, Hel.Vector3
+			ldsrsr r1, r0
+			ldsrc4 r3, 0x0
+			ldsrsv r4, Scn.Step.Chara.HitPointUtil.HitPointTable
+			ldsr2  r5, r3, 0x10
+			astidx r3, r6
+			aridx  r4, r3
+			ldsra4 r2, r4
+			calltv r1, Scn.Step.Chara.SettingData.setHitPoint(int)
+			ldsr2  r1, r0, %ABILITY_ID%
+			calltv r1, Scn.Step.Chara.SettingData.setAbilityKind(int)
+			ldsrsr r1, r0
+			ldsrsv r2, Scn.Step.CreditUtil.AbilityEnemyScore
+			calltv r1, Scn.Step.Chara.SettingData.setCreditScore(int)
+			fleave r0
+		}
+		
+		delegate void InitAfterCreateModule(Scn.Step.Chara.Obj)
+		{
+			fenter 5, 1, 0
+			ldsrsr r1, r0
+			call   r1, Scn.Step.Chara.SettingUtil.InitEnemyAfterCreateModule(Scn.Step.Chara.Obj)
+			ldsrsr r4, r0
+			calltr r3, Scn.Step.Chara.Obj.model()
+			calltr r2, Scn.Step.CharaUtil.Model.rotCtrl()
+			calltr r1, Scn.Step.CharaUtil.ModelRotCtrlSet.rotH()
+			sppsh  r2, Hel.Util.Angle
+			ldsrc4 r3, 0x42B40000
+			callnv r2, Hel.Util.Angle.FromDeg(float)
+			calltv r1, GObj.RotCtrl2d.setRotTargetDefault(const ref Hel.Util.Angle)
+			sppop  r2, Hel.Util.Angle
+			ldsrsr r2, r0
+			calltr r1, Scn.Step.Chara.Obj.objCollReactor()
+			ldsrca r2, "Scn.Step.Chara.Bomber.Bomber.ObjCollReact.OnDamaged"
+			calltv r1, Scn.Step.Chara.ObjCollReactor.setCustomEntryPointOnDamage(string)
+			ldsrsr r2, r0
+			calltr r1, Scn.Step.Chara.Obj.bodyCollStateCtrl()
+			ldsrc4 r2, 0x5
+			calltv r1, Scn.Step.Chara.BodyCollStateCtrl.setHitOnly(int)
+			ldsrsr r2, r0
+			calltr r1, Scn.Step.Chara.Obj.cliffChecker()
+			ldsrc4 r2, 0x3E4CCCCD
+			calltv r1, Scn.Step.CharaUtil.CliffChecker.changeFrontDist(float)
+			ldsrsr r4, r0
+			calltr r3, Scn.Step.Chara.Obj.comp()
+			calltr r2, Scn.Step.Component.helperGoManager()
+			calltr r1, Scn.Step.HelperGo.Manager.isValid()const
+			jmpneg r1, loc_00000026
+			ldsrsr r2, r0
+			calltr r1, Scn.Step.Chara.Obj.kibidangoTarget()
+			ldsrzr r2
+			calltv r1, F62EA67C
+			ldsrsr r2, r0
+			calltr r1, Scn.Step.Chara.Obj.kibidangoTarget()
+			ldsrzr r2
+			calltv r1, Scn.Step.Kibidango.Target.setIsEnableTarget(bool)
+			jmp    return
+			
+			loc_00000026:
+			ldsrsr r2, r0
+			calltr r1, Scn.Step.Chara.Obj.kibidangoTarget()
+			ldsrbt r2
+			calltv r1, F62EA67C
+			ldsrsr r2, r0
+			calltr r1, Scn.Step.Chara.Obj.kibidangoTarget()
+			ldsrbt r2
+			calltv r1, Scn.Step.Kibidango.Target.setIsEnableTarget(bool)
+			
+			return:
+			ldsrsr r2, r0
+			calltr r1, Scn.Step.Chara.Obj.vacuumReceiver()
+			ldsrc4 r2, %ELEMENT_ID%
+			calltv r1, Scn.Step.Vacuum.Receiver.setAbilityElement(uint)
+			fleave r0
+		}
+	}
+}

@@ -1,0 +1,207 @@
+script Scn.Step.Chara.KibidangoReact
+{
+	util class Scn.Step.Chara.KibidangoReact
+	{
+		delegate void OnCollided(Scn.Step.Chara.Obj,int)
+		{
+			fenter 19, 2, 0
+			call   r2, this.GetRandomCopyAbility()
+			ldsrc4 r3, %RANDOM_ELEMENTS%
+			jmpneg r3, loc_noRandomElement
+			call   r3, this.GetRandomElement()
+			jmp    loc_continue
+			
+			loc_noRandomElement:
+			ldsrsr r6, r0
+			calltr r5, Scn.Step.Chara.Obj.vacuumReceiver()
+			calltr r4, Scn.Step.Vacuum.Receiver.abilityElement()const
+			ldsrsr r3, r4
+			
+			loc_continue:
+			ldsrzr r4
+			ntbool r5, r4
+			jmpneg r5, loc_00000025
+			ldsrsr r7, r0
+			calltr r6, Scn.Step.Chara.Obj.comp()
+			ldsr2  r7, r1, r2
+			ldsrsr r9, r3
+			sppsh  r10, Hel.Vector3
+			ldsrsr r12, r0
+			calltr r11, Scn.Step.Chara.Obj.location()
+			calltr r10, GObj.Location.pos()const
+			ldsrsr r13, r0
+			calltr r12, Scn.Step.Chara.Obj.kibidangoTarget()
+			calltr r11, Scn.Step.Kibidango.Target.isPlaceAir()
+			ldsrsr r15, r6
+			calltr r14, Scn.Step.Component.heroManager()
+			calltr r13, BA28ECF4
+			les32  r12, 0x5, r13
+			jmpneg r12, loc_0000001e
+			ldsrzr r5
+			jmp    loc_00000023
+			
+			loc_0000001e:
+			ldsr2  r13, r6, r7
+			ldsr2  r15, r8, r9
+			ldsr2  r17, r10, r11
+			call   r12, Scn.Step.Kibidango.ReactUtil.ReqCreateHelperCore(Scn.Step.Component,int,int,uint,const ref Hel.Vector3,bool)
+			ldsrsr r5, r12
+			
+			loc_00000023:
+			ldsrsr r4, r5
+			sppop  r10, Hel.Vector3
+			
+			loc_00000025:
+			ntbool r5, r4
+			jmpneg r5, loc_00000036
+			ldsrsr r7, r0
+			calltr r6, Scn.Step.Chara.Obj.comp()
+			ldsrsr r7, r2
+			sppsh  r8, Hel.Vector3
+			ldsrsr r10, r0
+			calltr r9, Scn.Step.Chara.Obj.location()
+			calltr r8, GObj.Location.pos()const
+			ldsr2  r10, r6, r7
+			ldsrsr r12, r8
+			ldsrbt r5
+			ldsrsr r13, r5
+			call   r9, Scn.Step.Kibidango.ReactUtil.ReqCreateItemCore(Scn.Step.Component,int,const ref Hel.Vector3,bool)
+			ldsrsr r5, r9
+			ldsrsr r4, r5
+			sppop  r8, Hel.Vector3
+			
+			loc_00000036:
+			jmpneg r4, return
+			ldsrsr r8, r0
+			calltr r7, Scn.Step.Chara.Obj.comp()
+			ldsrsr r11, r7
+			calltr r10, Scn.Step.Component.charaManager()
+			calltr r9, Scn.Step.Chara.Manager.finderSet()
+			ldsrc4 r6, 0x6
+			ldsrsr r10, r6
+			calltr r8, Scn.Step.Chara.FinderSet.finder(int)
+			ldsrsr r6, r8
+			ldsrsr r5, r6
+			ldsrsr r8, r5
+			ldsrsr r12, r0
+			calltr r11, Scn.Step.Chara.Obj.objColl()
+			calltr r10, Scn.Step.Chara.ObjColl.owner()
+			calltr r9, Scn.Step.OColl.Owner.id()const
+			calltr r7, Scn.Step.Chara.Finder.searchFromOCollOwnerRootId(int)
+			ldsrsr r6, r7
+			ldsrsr r9, r6
+			calltr r8, Scn.Step.Chara.SearchResult.count()const
+			ldsr2  r7, r8, 0x0
+			jmp    loc_0000004d
+			
+			loc_0000004c:
+			inci32 r8
+			
+			loc_0000004d:
+			lts32  r9, r8, r7
+			jmpneg r9, loc_00000060
+			sppsh  r9, Scn.Step.Chara.ObjPtr
+			sppsh  r10, Scn.Step.Chara.ObjPtr
+			ldsr2  r11, r6, r8
+			calltr r10, Scn.Step.Chara.SearchResult.obj(int)
+			mcopys r9, r10, Scn.Step.Chara.ObjPtr
+			sppop  r10, Scn.Step.Chara.ObjPtr
+			ldsrsr r12, r9
+			calltr r11, Scn.Step.Chara.ObjPtr.isValid()const
+			ntbool r10, r11
+			jmpneg r10, loc_0000005b
+			sppop  r9, Scn.Step.Chara.ObjPtr
+			jmp    loc_0000004c
+			
+			loc_0000005b:
+			ldsrsr r11, r9
+			calltr r10, Scn.Step.Chara.ObjPtr.obj()const
+			call   r10, Scn.Step.Chara.DeadUtil.DeadWithEffect(Scn.Step.Chara.Obj)
+			sppop  r9, Scn.Step.Chara.ObjPtr
+			jmp    loc_0000004c
+			
+			loc_00000060:
+			ldsrsr r8, r0
+			calltv r8, Scn.Step.Chara.Obj.dead()
+			ldsrsr r9, r0
+			calltr r8, Scn.Step.Chara.Obj.kibidangoTarget()
+			ldsrzr r9
+			calltv r8, Scn.Step.Kibidango.Target.setIsValid(bool)
+			
+			return:
+			fleave r0
+		}
+		
+		delegate return int GetRandomCopyAbility()
+		{
+			fenter 4, 0, 0
+			ldsrc4 r1, %ALLOW_DREAM_FRIENDS%
+			jmpneg r1, loc_rollNormalAbilities
+			ldsrc4 r2, 0.3f
+			callnv r1, App.Random.RandBool(float)
+			jmpneg r1, loc_rollNormalAbilities
+			ldsr2  r2, 56, 68
+			callnv r1, App.Random.Rand(int,int)
+			jmp    loc_setAbility
+			
+			loc_rollNormalAbilities:
+			ldsr2  r2, 1, 31
+			callnv r1, App.Random.Rand(int,int)
+			eqi32  r2, r1, 29
+			jmppos r2, loc_rollNormalAbilities
+			eqi32  r2, r1, 30
+			jmppos r2, loc_rollNormalAbilities
+			
+			loc_setAbility:
+			ldsrsr r0, r1
+			fleave r0
+		}
+		
+		delegate return uint GetRandomElement()
+		{
+			fenter 4, 0, 0
+			ldsr2  r2, 0, 6
+			callnv r1, App.Random.Rand(int,int)
+			eqi32  r2, r1, 0
+			jmppos r2, loc_noElement
+			eqi32  r2, r1, 1
+			jmppos r2, loc_elementFire
+			eqi32  r2, r1, 2
+			jmppos r2, loc_elementIce
+			eqi32  r2, r1, 3
+			jmppos r2, loc_elementSpark
+			eqi32  r2, r1, 4
+			jmppos r2, loc_elementWater
+			eqi32  r2, r1, 5
+			jmppos r2, loc_elementWind
+			jmp    loc_noElement
+			
+			loc_elementFire:
+			ldsrsv r1, Scn.Step.OColl.Element.Fire
+			jmp    loc_setElement
+			
+			loc_elementIce:
+			ldsrsv r1, Scn.Step.OColl.Element.Ice
+			jmp    loc_setElement
+			
+			loc_elementSpark:
+			ldsrsv r1, Scn.Step.OColl.Element.Spark
+			jmp    loc_setElement
+			
+			loc_elementWater:
+			ldsrsv r1, Scn.Step.OColl.Element.Water
+			jmp    loc_setElement
+			
+			loc_elementWind:
+			ldsrsv r1, Scn.Step.OColl.Element.Wind
+			jmp    loc_setElement
+			
+			loc_noElement:
+			ldsrc4 r1, 0
+			
+			loc_setElement:
+			ldsrsr r0, r1
+			fleave r0
+		}
+	}
+}

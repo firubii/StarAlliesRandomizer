@@ -1,0 +1,211 @@
+script Scn.Step.Chara.Bugzzy.Bugzzy.Setting
+{
+	util class Scn.Step.Chara.Bugzzy.Bugzzy.Setting
+	{
+		delegate void Init(Scn.Step.Chara.SettingData)
+		{
+			fenter 8, 1, 0
+			ldsrsr r1, r0
+			call   r1, Scn.Step.Chara.SettingUtil.InitMBoss(Scn.Step.Chara.SettingData)
+			ldsrsr r1, r0
+			sppsh  r2, Hel.Vector3
+			sppshz r3, Hel.Vector3
+			ldsr2  r4, r3, 0x0
+			ldsr2  r6, 0x3F666666, 0x0
+			calltv r4, Hel.Vector3.this(float,float,float)
+			ldsrsv r4, Scn.Step.Chara.Bugzzy.Bugzzy.Constant.BaseScale
+			calltr r2, Hel.Vector3.opMul(float)const
+			calltv r1, Scn.Step.Chara.SettingData.setCenterOffs(const ref Hel.Vector3)
+			sppop  r3, Hel.Vector3
+			sppop  r2, Hel.Vector3
+			ldsr2  r1, r0, %ABILITY_ID%
+			calltv r1, Scn.Step.Chara.SettingData.setAbilityKind(int)
+			ldsrsr r3, r0
+			calltr r2, Scn.Step.Chara.SettingData.variation()const
+			ldsrc4 r1, 0x1
+			eqi32  r1, r2, r1
+			jmpneg r1, loc_00000018
+			ldsr2  r1, r0, 0x5
+			calltv r1, Scn.Step.Chara.SettingData.setRetryCountKind(int)
+			jmp    loc_0000001a
+			
+			loc_00000018:
+			ldsr2  r1, r0, 0x6
+			calltv r1, Scn.Step.Chara.SettingData.setRetryCountKind(int)
+			
+			loc_0000001a:
+			ldsrsr r4, r0
+			calltr r3, Scn.Step.Chara.SettingData.level()const
+			ldsrc4 r1, 0xB4
+			ldsr2  r4, r1, 0xC8
+			ldsr2  r6, 0xF0, 0x3
+			les32  r7, r7, r3
+			jmpneg r7, loc_00000024
+			ldsrsr r2, r6
+			jmp    loc_0000002b
+			jmp    loc_0000002b
+			
+			loc_00000024:
+			ldsrc4 r7, 0x2
+			eqi32  r7, r3, r7
+			jmpneg r7, loc_0000002a
+			ldsrsr r2, r5
+			jmp    loc_0000002b
+			jmp    loc_0000002b
+			
+			loc_0000002a:
+			ldsrsr r2, r4
+			
+			loc_0000002b:
+			ldsrsr r1, r2
+			ldsrsr r3, r0
+			calltr r2, Scn.Step.Chara.SettingData.variation()const
+			ldsrc4 r3, 0x1
+			eqi32  r4, r2, r3
+			jmppos r4, loc_00000038
+			ldsrc4 r3, 0x2
+			eqi32  r4, r2, r3
+			jmppos r4, loc_0000003b
+			ldsrc4 r3, 0x3
+			eqi32  r4, r2, r3
+			jmppos r4, loc_00000042
+			jmp    loc_00000049
+			
+			loc_00000038:
+			ldsr2  r2, r0, r1
+			calltv r2, Scn.Step.Chara.SettingData.setHitPoint(int)
+			jmp    return
+			
+			loc_0000003b:
+			ldsrsr r2, r0
+			ctf32s r3, r1
+			ldsrsv r4, Scn.Step.Chara.HitPointUtil.MBossExHitPointRate
+			mulf32 r3, r3, r4
+			cts32f r3, r3
+			calltv r2, Scn.Step.Chara.SettingData.setHitPoint(int)
+			jmp    return
+			
+			loc_00000042:
+			ctf32s r2, r1
+			ldsrsv r3, Scn.Step.Chara.HitPointUtil.MBossEx2HitPointRate
+			mulf32 r2, r2, r3
+			cts32f r2, r2
+			ldsr2  r3, r0, r2
+			calltv r3, Scn.Step.Chara.SettingData.setHitPoint(int)
+			jmp    return
+			
+			loc_00000049:
+			ldsr2  r2, r0, r1
+			calltv r2, Scn.Step.Chara.SettingData.setHitPoint(int)
+			
+			return:
+			fleave r0
+		}
+		
+		delegate void InitAfterCreateModule(Scn.Step.Chara.Obj)
+		{
+			fenter 10, 1, 0
+			ldsrsr r1, r0
+			call   r1, Scn.Step.Chara.SettingUtil.InitMBossAfterCreateModule(Scn.Step.Chara.Obj)
+			ldsrsr r3, r0
+			calltr r2, Scn.Step.Chara.Obj.model()
+			calltr r1, Scn.Step.CharaUtil.Model.scaleCtrl()
+			ldsrsv r2, Scn.Step.Chara.Bugzzy.Bugzzy.Constant.BaseScale
+			calltv r1, Scn.Step.CharaUtil.ModelScaleCtrl.setBaseScale(float)
+			ldsrsr r3, r0
+			calltr r2, Scn.Step.Chara.Obj.variation()const
+			ldsrc4 r1, 0x3
+			eqi32  r1, r2, r1
+			jmpneg r1, loc_0000001b
+			ldsr2  r1, r0, r1
+			ldsr2  r3, 0x3F800000, 0x3F800000
+			ldsrsr r9, r2
+			calltr r8, Scn.Step.Chara.Obj.comp()
+			calltr r7, Scn.Step.Component.heroManager()
+			calltr r6, Scn.Step.Hero.Manager.damageRateCtrl()
+			ldsr2  r5, r6, r5
+			ldsr2  r7, r3, r4
+			calltv r6, Scn.Step.Hero.DamageRateCtrl.setDamageRate(float,float)
+			ldsr2  r6, r5, 0x3D4CCCCD
+			ldsrc4 r8, 0x3C23D70A
+			calltv r6, Scn.Step.Hero.DamageRateCtrl.setGuardWeakRate(float,float)
+			ldsrsr r6, r5
+			calltv r6, Scn.Step.Hero.DamageRateCtrl.setStarShotPowerUp()
+			
+			loc_0000001b:
+			ldsrsr r2, r0
+			calltr r1, Scn.Step.Chara.Obj.angryCtrl()
+			ldsr2  r2, 0x1, 0x3F0CCCCD
+			ldsrca r4, "Scn.Step.Chara.Bugzzy.Bugzzy.Brain.ExecAngry"
+			calltv r1, Scn.Step.Chara.AngryCtrl.setAngrySetting(int,float,string)
+			ldsr2  r2, r0, 0x2
+			ldsrsr r5, r2
+			calltr r4, Scn.Step.Chara.Obj.variation()const
+			eqi32  r3, r4, r3
+			jmppos r3, loc_00000029
+			ldsrsr r5, r2
+			calltr r4, Scn.Step.Chara.Obj.variation()const
+			ldsrc4 r3, 0x3
+			eqi32  r3, r4, r3
+			
+			loc_00000029:
+			jmpneg r3, loc_0000002c
+			ldsrbt r1
+			jmp    loc_0000002d
+			
+			loc_0000002c:
+			ldsrzr r1
+			
+			loc_0000002d:
+			jmpneg r1, loc_00000035
+			ldsrsr r4, r0
+			calltr r3, Scn.Step.Chara.Obj.model()
+			calltr r2, Scn.Step.CharaUtil.Model.model()
+			calltr r1, GObj.Model.g3dModel()
+			ldsrc4 r2, 0x3F800000
+			call   r1, Scn.Step.Chara.Bugzzy.Bugzzy.Utility.ChangeEyeColor(G3D.Model,float)
+			jmp    loc_0000003b
+			
+			loc_00000035:
+			ldsrsr r4, r0
+			calltr r3, Scn.Step.Chara.Obj.model()
+			calltr r2, Scn.Step.CharaUtil.Model.model()
+			calltr r1, GObj.Model.g3dModel()
+			ldsrc4 r2, 0x0
+			call   r1, Scn.Step.Chara.Bugzzy.Bugzzy.Utility.ChangeEyeColor(G3D.Model,float)
+			
+			loc_0000003b:
+			obnew  r2, Scn.Step.Chara.Bugzzy.Bugzzy.Custom
+			ldsr2  r3, r2, r0
+			stofap r4, r3, Scn.Step.Chara.Bugzzy.Bugzzy.Custom.mObj
+			ldsrc4 r6, 0x0
+			stofa4 r6, r3, Scn.Step.Chara.Bugzzy.Bugzzy.Custom.mThrowActionKind
+			ldofap r5, r3, Scn.Step.Chara.Bugzzy.Bugzzy.Custom.mObj
+			call   r5, Scn.Step.Chara.Bugzzy.Bugzzy.Utility.SetBodyCollDefault(Scn.Step.Chara.Obj)
+			ldsrsr r1, r2
+			ldsrsr r3, r0
+			calltr r2, Scn.Step.Chara.Obj.custom()
+			obname r3, r1
+			ldsrsr r4, r1
+			calltv r2, Scn.Step.CharaUtil.Custom.setObj(string,object)
+			sppsh  r2, Scn.Step.OColl.HitBranchProxy
+			ldsrsr r6, r0
+			calltr r5, Scn.Step.Chara.Obj.objColl()
+			calltr r4, Scn.Step.Chara.ObjColl.bodyColl()
+			calltr r3, Scn.Step.OColl.BodyColl.hit()
+			ldsrc4 r4, 0x0
+			calltr r2, Scn.Step.OColl.Hit.branch(int)
+			calltr r1, Scn.Step.OColl.HitBranchProxy.hitData()
+			ldsrc4 r2, 0x1
+			ldsrsv r3, Scn.Step.OColl.Element.WingToss
+			ldsrc4 r4, 0x0
+			calltv r1, OColl.HitData.setElement(int,uint,uint)
+			sppop  r2, Scn.Step.OColl.HitBranchProxy
+			ldsrsr r2, r0
+			calltr r1, Scn.Step.Chara.Obj.vacuumReceiver()
+			ldsrc4 r2, %ELEMENT_ID%
+			calltv r1, Scn.Step.Vacuum.Receiver.setAbilityElement(uint)
+			fleave r0
+		}
+	}
+}

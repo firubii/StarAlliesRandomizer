@@ -1,0 +1,112 @@
+script Scn.Step.Chara.Gim.Gim.Setting
+{
+	util class Scn.Step.Chara.Gim.Gim.Setting
+	{
+		delegate void Init(Scn.Step.Chara.SettingData)
+		{
+			fenter 7, 1, 0
+			ldsrsr r1, r0
+			call   r1, Scn.Step.Chara.SettingUtil.InitEnemy(Scn.Step.Chara.SettingData)
+			ldsr2  r1, r0, 0x3
+			calltv r1, Scn.Step.Chara.SettingData.setModelHeapSize(int)
+			ldsr2  r1, r0, %ABILITY_ID%
+			calltv r1, Scn.Step.Chara.SettingData.setAbilityKind(int)
+			ldsrsr r1, r0
+			ldsrc4 r3, 0x3
+			ldsrsv r4, Scn.Step.Chara.HitPointUtil.HitPointTable
+			ldsr2  r5, r3, 0x10
+			astidx r3, r6
+			aridx  r4, r3
+			ldsra4 r2, r4
+			calltv r1, Scn.Step.Chara.SettingData.setHitPoint(int)
+			ldsrsr r1, r0
+			ldsrsv r2, Scn.Step.CreditUtil.AbilityEnemyScore
+			calltv r1, Scn.Step.Chara.SettingData.setCreditScore(int)
+			fleave r0
+		}
+		
+		delegate void InitAfterCreateModule(Scn.Step.Chara.Obj)
+		{
+			fenter 11, 1, 0
+			ldsrsr r1, r0
+			call   r1, Scn.Step.Chara.SettingUtil.InitEnemyAfterCreateModule(Scn.Step.Chara.Obj)
+			ldsrsr r2, r0
+			calltr r1, Scn.Step.Chara.Obj.gearModelCtrl()
+			ldsrca r2, "Common/Hero/Kirby/Yoyo/Yoyo"
+			calltv r1, Scn.Step.Chara.GearModelCtrl.initHeavy(string)
+			ldsrsr r2, r0
+			calltr r1, Scn.Step.Chara.Obj.gearModelCtrl()
+			ldsrca r2, "Common/Hero/Kirby/Yoyo/Yoyo"
+			calltv r1, Scn.Step.Chara.GearModelCtrl.initAnimPath(string)
+			ldsrsr r2, r0
+			calltr r1, Scn.Step.Chara.Obj.gearModelCtrl()
+			ldsrca r2, "AllL"
+			calltv r1, Scn.Step.Chara.GearModelCtrl.setDefaultBindNode(string)
+			ldsrsr r2, r0
+			calltr r1, Scn.Step.Chara.Obj.gearModelCtrl()
+			sppsh  r2, G3D.NodeRef
+			ldsrsr r4, r0
+			calltr r3, Scn.Step.Chara.Obj.model()
+			ldsrca r4, "RHaveL"
+			calltr r2, Scn.Step.CharaUtil.Model.node(string)
+			calltv r1, Scn.Step.Chara.GearModelCtrl.setParent(const ref G3D.NodeRef)
+			sppop  r2, G3D.NodeRef
+			ldsrsr r2, r0
+			calltr r1, Scn.Step.Chara.Obj.gearModelCtrl()
+			ldsrca r2, "YoyoWaitGim"
+			calltv r1, Scn.Step.Chara.GearModelCtrl.setDefaultAnimAfterClear(string)
+			ldsrsr r5, r0
+			calltr r4, Scn.Step.Chara.Obj.model()
+			calltr r3, Scn.Step.CharaUtil.Model.model()
+			calltr r2, GObj.Model.g3dModel()
+			ldsr2  r1, r2, 0x0
+			jmp    loc_00000023
+			
+			loc_00000022:
+			inci32 r2
+			
+			loc_00000023:
+			ldsrsr r5, r1
+			calltr r4, G3D.Model.materialCount()const
+			ltu32  r3, r2, r4
+			jmpneg r3, return
+			sppsh  r3, G3D.ShaderParamRef
+			sppsh  r4, G3D.ShaderParamRef
+			sppsh  r5, G3D.MaterialRef
+			ldsr2  r6, r1, r2
+			calltr r5, G3D.Model.material(uint)
+			ldsrca r6, "TextuurSwitchNoKey"
+			calltr r4, G3D.MaterialRef.shaderParamFind(string)const
+			mcopys r3, r4, G3D.ShaderParamRef
+			sppop  r5, G3D.MaterialRef
+			sppop  r4, G3D.ShaderParamRef
+			ldsrsr r5, r3
+			calltr r4, G3D.ShaderParamRef.isValid()const
+			jmpneg r4, loc_00000041
+			ldsrsr r4, r3
+			sppsh  r5, Hel.Vector2
+			sppsh  r6, Hel.Vector2
+			sppshz r7, Hel.Vector2
+			ldsr2  r8, r7, 0x0
+			ldsrc4 r10, 0x0
+			calltv r8, Hel.Vector2.this(float,float)
+			mcopys r6, r7, Hel.Vector2
+			sppop  r7, Hel.Vector2
+			mcopys r5, r6, Hel.Vector2
+			sppop  r6, Hel.Vector2
+			calltv r4, G3D.ShaderParamRef.set(const ref Hel.Vector2)
+			sppop  r5, Hel.Vector2
+			
+			loc_00000041:
+			sppop  r3, G3D.ShaderParamRef
+			jmp    loc_00000022
+			
+			return:
+			ldsrsr r2, r0
+			calltr r1, Scn.Step.Chara.Obj.vacuumReceiver()
+			ldsrc4 r2, %ELEMENT_ID%
+			calltv r1, Scn.Step.Vacuum.Receiver.setAbilityElement(uint)
+			fleave r0
+		}
+	}
+}

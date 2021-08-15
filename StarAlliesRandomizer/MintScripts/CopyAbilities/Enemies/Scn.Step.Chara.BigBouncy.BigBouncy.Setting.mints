@@ -1,0 +1,99 @@
+script Scn.Step.Chara.BigBouncy.BigBouncy.Setting
+{
+	util class Scn.Step.Chara.BigBouncy.BigBouncy.Setting
+	{
+		delegate void Init(Scn.Step.Chara.SettingData)
+		{
+			fenter 8, 1, 0
+			ldsrsr r1, r0
+			call   r1, Scn.Step.Chara.SettingUtil.InitMBoss(Scn.Step.Chara.SettingData)
+			ldsr2  r1, r0, %ABILITY_ID%
+			calltv r1, Scn.Step.Chara.SettingData.setAbilityKind(int)
+			ldsrsr r1, r0
+			sppshz r2, Hel.Vector3
+			ldsr2  r3, r2, 0x0
+			ldsr2  r5, 0x3F666666, 0x0
+			calltv r3, Hel.Vector3.this(float,float,float)
+			calltv r1, Scn.Step.Chara.SettingData.setCenterOffs(const ref Hel.Vector3)
+			sppop  r2, Hel.Vector3
+			ldsr2  r1, r0, 0x1
+			calltv r1, Scn.Step.Chara.SettingData.setRetryCountKind(int)
+			ldsrsr r4, r0
+			calltr r3, Scn.Step.Chara.SettingData.level()const
+			ldsrc4 r1, 0xC8
+			ldsr2  r4, r1, 0xFA
+			ldsr2  r6, 0x12C, 0x3
+			les32  r7, r7, r3
+			jmpneg r7, loc_00000016
+			ldsrsr r2, r6
+			jmp    loc_0000001d
+			jmp    loc_0000001d
+			
+			loc_00000016:
+			ldsrc4 r7, 0x2
+			eqi32  r7, r3, r7
+			jmpneg r7, loc_0000001c
+			ldsrsr r2, r5
+			jmp    loc_0000001d
+			jmp    loc_0000001d
+			
+			loc_0000001c:
+			ldsrsr r2, r4
+			
+			loc_0000001d:
+			ldsr2  r1, r2, r0
+			ldsrsr r3, r1
+			calltv r2, Scn.Step.Chara.SettingData.setHitPoint(int)
+			ldsr2  r2, r0, 0x40400000
+			calltv r2, Scn.Step.Chara.SettingData.setBaseScale(float)
+			fleave r0
+		}
+		
+		delegate void InitAfterCreateModule(Scn.Step.Chara.Obj)
+		{
+			fenter 7, 1, 0
+			ldsrsr r1, r0
+			call   r1, Scn.Step.Chara.SettingUtil.InitMBossAfterCreateModule(Scn.Step.Chara.Obj)
+			obnew  r2, Scn.Step.Chara.BigBouncy.BigBouncy.Custom
+			ldsr2  r3, r2, r0
+			call   r3, Scn.Step.Chara.BigBouncy.BigBouncy.Custom.this(Scn.Step.Chara.Obj)
+			ldsrsr r1, r2
+			ldsrsr r3, r0
+			calltr r2, Scn.Step.Chara.Obj.custom()
+			obname r3, r1
+			ldsrsr r4, r1
+			calltv r2, Scn.Step.CharaUtil.Custom.setObj(string,object)
+			ldsrsr r2, r0
+			calltr r1, Scn.Step.Chara.Obj.model()
+			sppshz r2, Hel.Vector3
+			ldsr2  r3, r2, 0x0
+			ldsr2  r5, 0x0, 0x3E99999A
+			negf32 r6, r6
+			calltv r3, Hel.Vector3.this(float,float,float)
+			calltv r1, Scn.Step.CharaUtil.Model.setViewOffset(const ref Hel.Vector3)
+			sppop  r2, Hel.Vector3
+			sppsh  r2, Scn.Step.OColl.HitBranchProxy
+			ldsrsr r6, r0
+			calltr r5, Scn.Step.Chara.Obj.objColl()
+			calltr r4, Scn.Step.Chara.ObjColl.bodyColl()
+			calltr r3, Scn.Step.OColl.BodyColl.hit()
+			ldsrc4 r4, 0x0
+			calltr r2, Scn.Step.OColl.Hit.branch(int)
+			calltr r1, Scn.Step.OColl.HitBranchProxy.hitData()
+			ldsrc4 r2, 0x1
+			ldsrsv r3, Scn.Step.OColl.Element.WingToss
+			ldsrc4 r4, 0x0
+			calltv r1, OColl.HitData.setElement(int,uint,uint)
+			sppop  r2, Scn.Step.OColl.HitBranchProxy
+			ldsrsr r2, r0
+			calltr r1, Scn.Step.Chara.Obj.objCollReactor()
+			ldsrca r2, "Scn.Step.Chara.BigBouncy.BigBouncy.ObjCollReact.OnDamaged"
+			calltv r1, Scn.Step.Chara.ObjCollReactor.setCustomEntryPointOnDamage(string)
+			ldsrsr r2, r0
+			calltr r1, Scn.Step.Chara.Obj.vacuumReceiver()
+			ldsrc4 r2, %ELEMENT_ID%
+			calltv r1, Scn.Step.Vacuum.Receiver.setAbilityElement(uint)
+			fleave r0
+		}
+	}
+}

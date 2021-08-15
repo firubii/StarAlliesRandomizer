@@ -1,0 +1,165 @@
+script Scn.Step.Chara.Whispywoods.Apple.Setting
+{
+	util class Scn.Step.Chara.Whispywoods.Apple.Setting
+	{
+		delegate void Init(Scn.Step.Chara.SettingData)
+		{
+			fenter 7, 1, 0
+			ldsrsr r1, r0
+			call   r1, Scn.Step.Chara.SettingUtil.InitEnemy(Scn.Step.Chara.SettingData)
+			ldsr2  r1, r0, %ABILITY_ID%
+			calltv r1, Scn.Step.Chara.SettingData.setAbilityKind(int)
+			ldsrsr r1, r0
+			sppshz r2, Hel.Vector3
+			ldsr2  r3, r2, 0x0
+			ldsrsv r5, Scn.Step.Chara.Whispywoods.Apple.Constant.CENTER_OFFS_Y
+			ldsrc4 r6, 0x0
+			calltv r3, Hel.Vector3.this(float,float,float)
+			calltv r1, Scn.Step.Chara.SettingData.setCenterOffs(const ref Hel.Vector3)
+			sppop  r2, Hel.Vector3
+			ldsrsr r1, r0
+			ldsrsv r2, Scn.Step.Chara.Whispywoods.Apple.Constant.CENTER_OFFS_Y
+			subf32 r2, r2, 0x3D4CCCCD
+			calltv r1, Scn.Step.Chara.SettingData.setMapCollRadius(float)
+			ldsr2  r1, r0, 0x0
+			calltv r1, Scn.Step.Chara.SettingData.setModelHeapSize(int)
+			ldsr2  r1, r0, 0x1
+			calltv r1, Scn.Step.Chara.SettingData.setHitPoint(int)
+			ldsrsr r3, r0
+			calltr r2, Scn.Step.Chara.SettingData.modelKind()const
+			ldsrc4 r1, 0x2
+			eqi32  r1, r2, r1
+			jmpneg r1, loc_0000001a
+			ldsr2  r1, r0, %ABILITY_ID%
+			calltv r1, Scn.Step.Chara.SettingData.setAbilityKind(int)
+			
+			loc_0000001a:
+			ldsrsr r1, r0
+			ldsrzr r2
+			calltv r1, Scn.Step.Chara.SettingData.setIsCocoonMoving(bool)
+			fleave r0
+		}
+		
+		delegate void InitAfterCreateModule(Scn.Step.Chara.Obj)
+		{
+			fenter 7, 1, 0
+			ldsrsr r1, r0
+			call   r1, Scn.Step.Chara.SettingUtil.InitEnemyAfterCreateModule(Scn.Step.Chara.Obj)
+			ldsrsr r2, r0
+			calltr r1, Scn.Step.Chara.Obj.objCollReactor()
+			ldsrca r2, "Scn.Step.Chara.Whispywoods.Apple.ObjCollReact.OnDamaged"
+			calltv r1, Scn.Step.Chara.ObjCollReactor.setCustomEntryPointOnDamage(string)
+			ldsrsr r3, r0
+			calltr r2, Scn.Step.Chara.Obj.model()
+			calltr r1, Scn.Step.CharaUtil.Model.billboardWalkCtrl()
+			ldsrzr r2
+			calltv r1, Scn.Step.CharaUtil.BillboardWalkCtrl.setIsValidDefault(bool)
+			ldsrsr r3, r0
+			calltr r2, Scn.Step.Chara.Obj.model()
+			calltr r1, Scn.Step.CharaUtil.Model.billboardWalkCtrl()
+			ldsrzr r2
+			calltv r1, Scn.Step.CharaUtil.BillboardWalkCtrl.setIsValid(bool)
+			ldsrsr r4, r0
+			calltr r3, Scn.Step.Chara.Obj.model()
+			calltr r2, Scn.Step.CharaUtil.Model.rotCtrl()
+			calltr r1, Scn.Step.CharaUtil.ModelRotCtrlSet.rotH()
+			sppsh  r2, Hel.Util.Angle
+			callnv r2, Hel.Util.Angle.Zero()
+			calltv r1, GObj.RotCtrl2d.initRot(const ref Hel.Util.Angle)
+			sppop  r2, Hel.Util.Angle
+			ldsrsr r2, r0
+			calltr r1, Scn.Step.Chara.Obj.nururiCtrl()
+			ldsrc4 r2, 0x2
+			calltv r1, Scn.Step.Chara.NururiCtrl.changeSetting(Nururi.Mode)
+			ldsrsr r2, r0
+			calltr r1, Scn.Step.Chara.Obj.itemPopCtrl()
+			ldsrzr r2
+			calltv r1, Scn.Step.Chara.ItemPopCtrl.setIsValid(bool)
+			ldsr2  r2, r0, 0x2
+			ldsrsr r5, r2
+			calltr r4, Scn.Step.Chara.Obj.modelKind()const
+			eqi32  r3, r4, r3
+			jmpneg r3, loc_00000028
+			ldsrbt r1
+			jmp    loc_00000029
+			
+			loc_00000028:
+			ldsrzr r1
+			
+			loc_00000029:
+			jmpneg r1, loc_0000002e
+			ldsrsr r2, r0
+			calltr r1, Scn.Step.Chara.Obj.objCollReactor()
+			ldsrzr r2
+			calltv r1, Scn.Step.Chara.ObjCollReactor.setIsPopCopySourceFromTinkleDamage(bool)
+			
+			loc_0000002e:
+			ldsr2  r3, r0, 0x1
+			ldsrsr r6, r3
+			calltr r5, Scn.Step.Chara.Obj.modelKind()const
+			eqi32  r4, r5, r4
+			jmppos r4, loc_00000037
+			ldsrsr r6, r3
+			calltr r5, Scn.Step.Chara.Obj.modelKind()const
+			ldsrc4 r4, 0x2
+			eqi32  r4, r5, r4
+			
+			loc_00000037:
+			jmpneg r4, loc_0000003a
+			ldsrbt r2
+			jmp    loc_0000003b
+			
+			loc_0000003a:
+			ldsrzr r2
+			
+			loc_0000003b:
+			ldsrsr r1, r2
+			jmpneg r1, loc_00000046
+			ldsr2  r3, r0, 0x2
+			ldsrsr r6, r3
+			calltr r5, Scn.Step.Chara.Obj.modelKind()const
+			eqi32  r4, r5, r4
+			jmpneg r4, loc_00000044
+			ldsrbt r2
+			jmp    loc_00000045
+			
+			loc_00000044:
+			ldsrzr r2
+			
+			loc_00000045:
+			ntbool r1, r2
+			
+			loc_00000046:
+			jmpneg r1, loc_0000004f
+			ldsrsr r2, r0
+			calltr r1, Scn.Step.Chara.Obj.vacuumReceiver()
+			sppshz r2, Util.Decimal
+			ldsrsr r3, r2
+			ldsrsv r4, Scn.Step.Chara.Whispywoods.AttackPower.CherryDrink
+			calltv r3, Util.Decimal.this(int)
+			calltv r1, Scn.Step.Vacuum.Receiver.setDamageSource(const ref Util.Decimal)
+			sppop  r2, Util.Decimal
+			
+			loc_0000004f:
+			ldsrsr r3, r0
+			calltr r2, Scn.Step.Chara.Obj.modelKind()const
+			ldsrc4 r1, 0x3
+			eqi32  r1, r2, r1
+			jmpneg r1, return
+			ldsrsr r1, r0
+			ldsrsr r6, r1
+			calltr r5, Scn.Step.Chara.Obj.model()
+			calltr r4, Scn.Step.CharaUtil.Model.model()
+			calltr r3, GObj.Model.g3dModel()
+			ldsr2  r2, r3, r2
+			call   r3, Scn.Step.Chara.UltimateUtil.ChangeColor(G3D.Model)
+			
+			return:
+			ldsrsr r2, r0
+			calltr r1, Scn.Step.Chara.Obj.vacuumReceiver()
+			ldsrc4 r2, %ELEMENT_ID%
+			calltv r1, Scn.Step.Vacuum.Receiver.setAbilityElement(uint)
+			fleave r0
+		}
+	}
+}

@@ -1,0 +1,509 @@
+script Scn.Step.Hero.Common.StateDrink
+{
+	pod class Scn.Step.Hero.Common.StateDrink
+	{
+		var Scn.Step.Hero.Obj mObj
+		var bool mIsCompleted
+		var bool mIsMix
+		var bool mHaveAbility
+		var int mAbilityKind
+		var uint mAbilityElement
+		var bool mIsDamageSourceExist
+		var Util.Decimal mDamageValue
+		
+		delegate return bool TryToChangeState(Scn.Step.Hero.Obj)
+		{
+			fenter 12, 1, 2
+			ldsrsr r5, r1
+			calltr r4, Scn.Step.Hero.Obj.vacuumAttacker()
+			calltr r3, Scn.Step.Vacuum.Attacker.eatCount()const
+			eqi32  r2, r3, 0x0
+			jmpneg r2, loc_00000008
+			ldsrzr r0
+			jmp    return
+			
+			loc_00000008:
+			ldsrsr r5, r1
+			calltr r4, Scn.Step.Hero.Obj.vacuumAttacker()
+			calltr r3, Scn.Step.Vacuum.Attacker.eatWeight()const
+			eqi32  r2, r3, 0x0
+			jmpneg r2, loc_0000000e
+			jmp    loc_0000003e
+			
+			loc_0000000e:
+			ldsrsr r5, r1
+			calltr r4, Scn.Step.Hero.Obj.footState()
+			calltr r3, GObj.FootState.isGround()const
+			ntbool r2, r3
+			jmppos r2, loc_0000003b
+			ldsrsr r5, r1
+			calltr r4, Scn.Step.Hero.Obj.hid()
+			sppsh  r5, Scn.Step.Hero.ButtonMask
+			sppsh  r6, Scn.Step.Hero.ButtonMask
+			sppsh  r7, Scn.Step.Hero.ButtonMask
+			sppsh  r8, Scn.Step.Hero.ButtonMask
+			sppsh  r9, Scn.Step.Hero.ButtonMask
+			ldsrc4 r10, 0x16
+			callnv r9, Scn.Step.Hero.ButtonMask.CreateFromShift(int)
+			mcopys r8, r9, Scn.Step.Hero.ButtonMask
+			sppop  r9, Scn.Step.Hero.ButtonMask
+			mcopys r7, r8, Scn.Step.Hero.ButtonMask
+			sppop  r8, Scn.Step.Hero.ButtonMask
+			sppsh  r8, Scn.Step.Hero.ButtonMask
+			sppsh  r9, Scn.Step.Hero.ButtonMask
+			sppsh  r10, Scn.Step.Hero.ButtonMask
+			ldsrc4 r11, 0xB
+			callnv r10, Scn.Step.Hero.ButtonMask.CreateFromShift(int)
+			mcopys r9, r10, Scn.Step.Hero.ButtonMask
+			sppop  r10, Scn.Step.Hero.ButtonMask
+			mcopys r8, r9, Scn.Step.Hero.ButtonMask
+			sppop  r9, Scn.Step.Hero.ButtonMask
+			calltr r6, Scn.Step.Hero.ButtonMask.opOr(const ref Scn.Step.Hero.ButtonMask)const
+			sppsh  r7, Scn.Step.Hero.ButtonMask
+			sppsh  r8, Scn.Step.Hero.ButtonMask
+			sppsh  r9, Scn.Step.Hero.ButtonMask
+			ldsrc4 r10, 0x7
+			callnv r9, Scn.Step.Hero.ButtonMask.CreateFromShift(int)
+			mcopys r8, r9, Scn.Step.Hero.ButtonMask
+			sppop  r9, Scn.Step.Hero.ButtonMask
+			mcopys r7, r8, Scn.Step.Hero.ButtonMask
+			sppop  r8, Scn.Step.Hero.ButtonMask
+			calltr r5, Scn.Step.Hero.ButtonMask.opOr(const ref Scn.Step.Hero.ButtonMask)const
+			calltr r3, Scn.Step.Hero.HID.isHold(const ref Scn.Step.Hero.ButtonMask)const
+			ntbool r2, r3
+			sppop  r7, Scn.Step.Hero.ButtonMask
+			sppop  r8, Scn.Step.Hero.ButtonMask
+			sppop  r7, Scn.Step.Hero.ButtonMask
+			sppop  r6, Scn.Step.Hero.ButtonMask
+			sppop  r5, Scn.Step.Hero.ButtonMask
+			
+			loc_0000003b:
+			jmpneg r2, loc_0000003e
+			ldsrzr r0
+			jmp    return
+			
+			loc_0000003e:
+			ldsrsr r2, r1
+			call   r2, this.ChangeState(Scn.Step.Hero.Obj)
+			ldsrbt r0
+			
+			return:
+			fleave r0
+		}
+		
+		delegate void ChangeState(Scn.Step.Hero.Obj)
+		{
+			fenter 6, 1, 0
+			sppshz r1, this
+			ldsr2  r2, r1, r0
+			stofap r3, r2, this.mObj
+			ldsrzr r5
+			stofa4 r5, r2, this.mIsCompleted
+			ldsrzr r5
+			stofa4 r5, r2, this.mIsMix
+			ldsrzr r5
+			stofa4 r5, r2, this.mHaveAbility
+			ldaddr r4, r2, this.mAbilityKind
+			ldsrc4 r5, 0x1
+			stsra4 r4, r5
+			ldsrsr r3, r0
+			calltr r2, Scn.Step.Hero.Obj.stateChanger()
+			ldsrca r3, "Scn.Step.Hero.Common.StateDrink"
+			ldsrsr r4, r1
+			calltv r2, Scn.Step.CharaUtil.StateChanger.setNextState(string,register)
+			sppop  r1, this
+			fleave r0
+		}
+		
+		delegate void this(Scn.Step.Hero.Obj)
+		{
+			fenter 4, 1, 1
+			stofap r1, r0, this.mObj
+			ldsrzr r3
+			stofa4 r3, r0, this.mIsCompleted
+			ldsrzr r3
+			stofa4 r3, r0, this.mIsMix
+			ldsrzr r3
+			stofa4 r3, r0, this.mHaveAbility
+			ldsrc4 r3, 0x1
+			stofa4 r3, r0, this.mAbilityKind
+			fleave r0
+		}
+		
+		delegate void onStart()
+		{
+			fenter 9, 0, 1
+			ldsrsr r1, r0
+			call   r1, this.checkMix()
+			ldofa4 r1, r0, this.mIsMix
+			ntbool r1, r1
+			jmpneg r1, loc_00000030
+			ldsrc4 r1, 0x5
+			subi32 r1, r1, 0x1
+			jmp    loc_0000000a
+			
+			loc_00000009:
+			deci32 r1
+			
+			loc_0000000a:
+			les32  r2, 0x0, r1
+			jmpneg r2, loc_00000030
+			ldofap r2, r0, this.mObj
+			ldsrsr r6, r2
+			calltr r5, Scn.Step.Hero.Obj.vacuumAttacker()
+			calltr r4, Scn.Step.Vacuum.Attacker.ability()
+			ldsrsr r5, r1
+			calltr r3, Scn.Step.Vacuum.AbilityInfoSet.count(int)const
+			lts32  r2, 0x0, r3
+			jmpneg r2, loc_0000002f
+			ldsrbt r4
+			stofa4 r4, r0, this.mHaveAbility
+			ldaddr r3, r0, this.mAbilityKind
+			ldofap r8, r0, this.mObj
+			calltr r7, Scn.Step.Hero.Obj.vacuumAttacker()
+			calltr r6, Scn.Step.Vacuum.Attacker.ability()
+			ldsr2  r7, r1, 0x0
+			calltr r5, Scn.Step.Vacuum.AbilityInfoSet.info(int,int)const
+			calltr r4, Scn.Step.Vacuum.AbilityInfo.kind()const
+			stsra4 r3, r4
+			ldaddr r3, r0, this.mAbilityElement
+			ldofap r8, r0, this.mObj
+			calltr r7, Scn.Step.Hero.Obj.vacuumAttacker()
+			calltr r6, Scn.Step.Vacuum.Attacker.ability()
+			ldsr2  r7, r1, 0x0
+			calltr r5, Scn.Step.Vacuum.AbilityInfoSet.info(int,int)const
+			calltr r4, Scn.Step.Vacuum.AbilityInfo.element()const
+			stsra4 r3, r4
+			ldofa4 r4, r0, this.mAbilityKind
+			callnv r3, Storage.Data.StepAbilityKindUtil.IsUnimplemented(int)
+			jmpneg r3, loc_0000002e
+			ldsrc4 r4, 0x8
+			stofa4 r4, r0, this.mAbilityKind
+			ldaddr r3, r0, this.mAbilityElement
+			ldsrc4 r4, 0x0
+			stsra4 r3, r4
+			
+			loc_0000002e:
+			jmp    loc_00000030
+			
+			loc_0000002f:
+			jmp    loc_00000009
+			
+			loc_00000030:
+			ldofap r4, r0, this.mObj
+			calltr r3, Scn.Step.Hero.Obj.abilityCtrl()
+			calltr r2, Scn.Step.Hero.AbilityCtrl.kind()const
+			callnv r1, Storage.Data.StepAbilityKindUtil.IsHelper(int)
+			jmpneg r1, loc_00000039
+			ldsrzr r2
+			stofa4 r2, r0, this.mIsMix
+			ldsrzr r2
+			stofa4 r2, r0, this.mHaveAbility
+			
+			loc_00000039:
+			ldofap r1, r0, this.mObj
+			ldsrsr r5, r1
+			calltr r4, Scn.Step.Hero.Obj.vacuumAttacker()
+			calltr r3, Scn.Step.Vacuum.Attacker.ability()
+			ldsrc4 r4, 0x4
+			calltr r2, Scn.Step.Vacuum.AbilityInfoSet.count(int)const
+			lts32  r1, 0x0, r2
+			jmpneg r1, loc_00000045
+			ldsrzr r2
+			stofa4 r2, r0, this.mIsMix
+			ldsrzr r2
+			stofa4 r2, r0, this.mHaveAbility
+			
+			loc_00000045:
+			ldsrc4 r1, 0x20
+			ldofap r2, r0, this.mObj
+			ldsrsr r6, r2
+			calltr r5, Scn.Step.Hero.Obj.vacuumAttacker()
+			calltr r4, Scn.Step.Vacuum.Attacker.ability()
+			ldsrc4 r5, 0x4
+			calltr r3, Scn.Step.Vacuum.AbilityInfoSet.count(int)const
+			lts32  r2, 0x0, r3
+			jmpneg r2, loc_00000051
+			ldsrc4 r2, 0x21
+			ldsrsr r1, r2
+			jmp    loc_0000005a
+			
+			loc_00000051:
+			ldofa4 r2, r0, this.mIsMix
+			jmpneg r2, loc_00000056
+			ldsrc4 r2, 0x22
+			ldsrsr r1, r2
+			jmp    loc_0000005a
+			
+			loc_00000056:
+			ldofa4 r2, r0, this.mHaveAbility
+			jmpneg r2, loc_0000005a
+			ldsrc4 r2, 0x21
+			ldsrsr r1, r2
+			
+			loc_0000005a:
+			ldofap r4, r0, this.mObj
+			calltr r3, Scn.Step.Hero.Obj.model()
+			calltr r2, Scn.Step.Hero.Model.script()
+			ldsrsr r3, r1
+			calltv r2, AF961EF4
+			ldofap r1, r0, this.mObj
+			ldsrsr r4, r1
+			calltr r3, Scn.Step.Hero.Obj.vacuumAttacker()
+			calltr r2, Scn.Step.Vacuum.Attacker.eatWeight()const
+			lts32  r1, 0x0, r2
+			jmpneg r1, loc_0000006a
+			ldofap r3, r0, this.mObj
+			calltr r2, Scn.Step.Hero.Obj.guideBoardChecker()
+			calltr r1, Scn.Step.Hero.GuideBoardChecker.drink()
+			ldsrbt r2
+			calltv r1, Scn.Step.CharaUtil.StateFlag.setIsValid(bool)
+			
+			loc_0000006a:
+			ldofap r3, r0, this.mObj
+			calltr r2, Scn.Step.Hero.Obj.stateChecker()
+			calltr r1, Scn.Step.Hero.StateChecker.drinking()
+			ldsrbt r2
+			calltv r1, Scn.Step.CharaUtil.StateFlag.setIsValid(bool)
+			ldofa4 r1, r0, this.mHaveAbility
+			jmpneg r1, loc_00000074
+			ldofap r2, r0, this.mObj
+			calltr r1, Scn.Step.Hero.Obj.invincible()
+			calltv r1, Scn.Step.Hero.Invincible.setDemoState()
+			
+			loc_00000074:
+			ldofa4 r1, r0, this.mHaveAbility
+			ntbool r1, r1
+			jmpneg r1, loc_00000084
+			ldofap r4, r0, this.mObj
+			calltr r3, Scn.Step.Hero.Obj.vacuumAttacker()
+			calltr r2, Scn.Step.Vacuum.Attacker.isDamageSourceExists()const
+			stofa4 r2, r0, this.mIsDamageSourceExist
+			ldofa4 r1, r0, this.mIsDamageSourceExist
+			jmpneg r1, loc_00000084
+			ldaddr r1, r0, this.mDamageValue
+			sppsh  r2, Util.Decimal
+			ldofap r4, r0, this.mObj
+			calltr r3, Scn.Step.Hero.Obj.vacuumAttacker()
+			calltr r2, Scn.Step.Vacuum.Attacker.damageSourceValue()const
+			mcopys r1, r2, Util.Decimal
+			sppop  r2, Util.Decimal
+			
+			loc_00000084:
+			ldofap r3, r0, this.mObj
+			calltr r2, Scn.Step.Hero.Obj.stateChecker()
+			calltr r1, Scn.Step.Hero.StateChecker.commonMove()
+			ldsrbt r2
+			calltv r1, Scn.Step.CharaUtil.StateFlag.setIsValid(bool)
+			fleave r0
+		}
+		
+		delegate void onEnd()
+		{
+			fenter 4, 0, 1
+			ldofap r3, r0, this.mObj
+			calltr r2, Scn.Step.Hero.Obj.stateChecker()
+			calltr r1, Scn.Step.Hero.StateChecker.drinking()
+			ldsrzr r2
+			calltv r1, Scn.Step.CharaUtil.StateFlag.setIsValid(bool)
+			fleave r0
+		}
+		
+		delegate void procAnim()
+		{
+			fenter 11, 0, 1
+			ldofap r3, r0, this.mObj
+			calltr r2, Scn.Step.Hero.Obj.scriptTrigger()
+			ldsrc4 r3, 0x0
+			calltr r1, GObj.ScriptTrigger.get(int)const
+			jmpneg r1, loc_00000056
+			ldofap r1, r0, this.mObj
+			ldsrsr r4, r1
+			calltr r3, Scn.Step.Hero.Obj.vacuumAttacker()
+			calltr r2, Scn.Step.Vacuum.Attacker.eatCount()const
+			eqi32  r1, r2, 0x0
+			jmpneg r1, loc_0000000f
+			ldofap r1, r0, this.mObj
+			call   r1, Scn.Step.Hero.StateUtil.ChangeStateWaitOrFall(Scn.Step.Hero.Obj)
+			jmp    return
+			
+			loc_0000000f:
+			ldofa4 r1, r0, this.mIsMix
+			jmpneg r1, loc_0000001d
+			ldofap r1, r0, this.mObj
+			sppshz r2, Scn.Step.Hero.Common.StateMixPre
+			ldsr2  r3, r2, r1
+			ldaddr r5, r3, Scn.Step.Hero.Common.StateMixPre.mObj
+			stsrap r5, r4
+			ldsrsr r4, r1
+			calltr r3, Scn.Step.Hero.Obj.stateChanger()
+			ldsrca r4, "Scn.Step.Hero.Common.StateMixPre"
+			ldsrsr r5, r2
+			calltv r3, Scn.Step.CharaUtil.StateChanger.setNextState(string,register)
+			sppop  r2, Scn.Step.Hero.Common.StateMixPre
+			jmp    return
+			
+			loc_0000001d:
+			ldofa4 r1, r0, this.mHaveAbility
+			ldsrbt r2
+			eqbool r1, r1, r2
+			jmpneg r1, loc_00000028
+			ldsrbt r2
+			stofa4 r2, r0, this.mIsCompleted
+			ldofap r1, r0, this.mObj
+			ldofa4 r2, r0, this.mAbilityKind
+			ldofa4 r3, r0, this.mAbilityElement
+			call   r1, Scn.Step.Hero.Common.StateCopyPre.ChangeState(Scn.Step.Hero.Obj,int,uint)
+			jmp    return
+			
+			loc_00000028:
+			ldofa4 r1, r0, this.mIsDamageSourceExist
+			jmpneg r1, loc_00000049
+			ldaddr r1, r0, this.mIsCompleted
+			ldsrbt r2
+			stsra4 r1, r2
+			ldofap r2, r0, this.mObj
+			calltr r1, Scn.Step.Hero.Obj.vacuumAttacker()
+			calltv r1, Scn.Step.Vacuum.Attacker.reset()
+			ldofap r1, r0, this.mObj
+			sppsh  r2, Util.Decimal
+			ldaddr r3, r0, this.mDamageValue
+			mcopys r2, r3, Util.Decimal
+			ldsrc4 r3, 0x1E
+			sppshz r4, Scn.Step.Hero.Common.StateStomachache
+			ldsr2  r5, r4, r1
+			sppsh  r7, Util.Decimal
+			mcopys r7, r2, Util.Decimal
+			ldsrsr r8, r3
+			stofap r6, r5, Scn.Step.Hero.Common.StateStomachache.mObj
+			ldaddr r9, r5, Scn.Step.Hero.Common.StateStomachache.mDamageValue
+			mcopys r9, r7, Util.Decimal
+			ldaddr r9, r5, Scn.Step.Hero.Common.StateStomachache.mFrame
+			ldsrsr r10, r8
+			calltv r9, Hel.Util.FrameCounter.reset(int)
+			sppop  r7, Util.Decimal
+			ldsrsr r6, r1
+			calltr r5, Scn.Step.Hero.Obj.stateChanger()
+			ldsrca r6, "Scn.Step.Hero.Common.StateStomachache"
+			ldsrsr r7, r4
+			calltv r5, Scn.Step.CharaUtil.StateChanger.setNextState(string,register)
+			sppop  r4, Scn.Step.Hero.Common.StateStomachache
+			sppop  r2, Util.Decimal
+			jmp    return
+			
+			loc_00000049:
+			ldofap r3, r0, this.mObj
+			calltr r2, Scn.Step.Hero.Obj.hid()
+			calltr r1, Scn.Step.Hero.HID.vibrationCtrl()
+			ldsrca r2, "SE_Hero_GetSuka"
+			calltv r1, 4491C80D
+			ldofap r3, r0, this.mObj
+			calltr r2, Scn.Step.Hero.Obj.hid()
+			calltr r1, Scn.Step.Hero.HID.vibrationCtrl()
+			ldsrc4 r2, 0x3EB33333
+			calltv r1, C2ABE7BA
+			ldofap r2, r0, this.mObj
+			calltr r1, Scn.Step.Hero.Obj.vacuumAttacker()
+			calltv r1, Scn.Step.Vacuum.Attacker.reset()
+			
+			loc_00000056:
+			ldofap r3, r0, this.mObj
+			calltr r2, Scn.Step.Hero.Obj.model()
+			calltr r1, Scn.Step.Hero.Model.isAllEnd()
+			jmpneg r1, return
+			ldaddr r1, r0, this.mIsCompleted
+			ldsrbt r2
+			stsra4 r1, r2
+			ldofap r2, r0, this.mObj
+			calltr r1, Scn.Step.Hero.Obj.vacuumAttacker()
+			calltv r1, Scn.Step.Vacuum.Attacker.reset()
+			ldofap r1, r0, this.mObj
+			call   r1, Scn.Step.Hero.StateUtil.ChangeStateWaitOrFall(Scn.Step.Hero.Obj)
+			
+			return:
+			fleave r0
+		}
+		
+		delegate void procMove()
+		{
+			fenter 2, 0, 1
+			ldofap r1, r0, this.mObj
+			call   r1, Scn.Step.Hero.MoveUtil.DefaultBrake(Scn.Step.Hero.Obj)
+			fleave r0
+		}
+		
+		delegate void procFixPos()
+		{
+			fenter 2, 0, 1
+			ldofap r1, r0, this.mObj
+			call   r1, Scn.Step.Hero.FixPosUtil.ChkGround(Scn.Step.Hero.Obj)
+			fleave r0
+		}
+		
+		delegate void checkMix()
+		{
+			fenter 2, 0, 1
+			ldsrbt r1
+			stofa4 r1, r0, this.mIsMix
+			fleave r0
+		}
+		
+		delegate return bool IsShouldMix(const Scn.Step.Vacuum.AbilityInfoSet,const Scn.Step.Hero.AbilityType)
+		{
+			fenter 13, 2, 2
+			ldsr2  r5, r1, r2
+			calltr r4, Scn.Step.Vacuum.AbilityInfoSet.count(int)const
+			ldsrsr r3, r4
+			lts32  r4, r3, 0x2
+			jmpneg r4, loc_00000008
+			ldsrzr r0
+			jmp    return
+			
+			loc_00000008:
+			ldsrc4 r4, 0x0
+			jmp    loc_0000000b
+			
+			loc_0000000a:
+			inci32 r4
+			
+			loc_0000000b:
+			lts32  r5, r4, r3
+			jmpneg r5, loc_00000022
+			addi32 r5, r4, 0x1
+			jmp    loc_00000010
+			
+			loc_0000000f:
+			inci32 r5
+			
+			loc_00000010:
+			lts32  r6, r5, r3
+			jmpneg r6, loc_00000021
+			ldsr2  r9, r1, r2
+			ldsrsr r11, r4
+			calltr r8, Scn.Step.Vacuum.AbilityInfoSet.info(int,int)const
+			calltr r7, Scn.Step.Vacuum.AbilityInfo.kind()const
+			ldsrsr r6, r7
+			ldsr2  r10, r1, r2
+			ldsrsr r12, r5
+			calltr r9, Scn.Step.Vacuum.AbilityInfoSet.info(int,int)const
+			calltr r8, Scn.Step.Vacuum.AbilityInfo.kind()const
+			ldsrsr r7, r8
+			nei32  r8, r6, r7
+			jmpneg r8, loc_00000020
+			ldsrbt r0
+			jmp    return
+			
+			loc_00000020:
+			jmp    loc_0000000f
+			
+			loc_00000021:
+			jmp    loc_0000000a
+			
+			loc_00000022:
+			ldsrzr r0
+			
+			return:
+			fleave r0
+		}
+	}
+}

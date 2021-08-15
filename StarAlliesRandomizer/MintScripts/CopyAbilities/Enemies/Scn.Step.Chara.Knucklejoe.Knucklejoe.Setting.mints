@@ -1,0 +1,52 @@
+script Scn.Step.Chara.Knucklejoe.Knucklejoe.Setting
+{
+	util class Scn.Step.Chara.Knucklejoe.Knucklejoe.Setting
+	{
+		delegate void Init(Scn.Step.Chara.SettingData)
+		{
+			fenter 7, 1, 0
+			ldsrsr r1, r0
+			call   r1, Scn.Step.Chara.SettingUtil.InitEnemy(Scn.Step.Chara.SettingData)
+			ldsrsr r1, r0
+			ldsrc4 r3, 0x4
+			ldsrsv r4, Scn.Step.Chara.HitPointUtil.HitPointTable
+			ldsr2  r5, r3, 0x10
+			astidx r3, r6
+			aridx  r4, r3
+			ldsra4 r2, r4
+			calltv r1, Scn.Step.Chara.SettingData.setHitPoint(int)
+			ldsr2  r1, r0, %ABILITY_ID%
+			calltv r1, Scn.Step.Chara.SettingData.setAbilityKind(int)
+			ldsrsr r1, r0
+			ldsrbt r2
+			calltv r1, Scn.Step.Chara.SettingData.setUseDynamics(bool)
+			ldsrsr r1, r0
+			ldsrsv r2, Scn.Step.CreditUtil.AbilityEnemyScore
+			calltv r1, Scn.Step.Chara.SettingData.setCreditScore(int)
+			fleave r0
+		}
+		
+		delegate void InitAfterCreateModule(Scn.Step.Chara.Obj)
+		{
+			fenter 7, 1, 0
+			ldsrsr r1, r0
+			call   r1, Scn.Step.Chara.SettingUtil.InitEnemyAfterCreateModule(Scn.Step.Chara.Obj)
+			ldsrsr r1, r0
+			ldsrca r2, "param/Common/Dynamics/HeroFighterHat.cndbin"
+			callnv r1, Scn.Step.Chara.DynamicsUtil.SetupByCinemo(Scn.Step.Chara.Obj,string)
+			ldsrsr r2, r0
+			calltr r1, Scn.Step.Chara.Obj.location()
+			sppshz r2, Hel.Vector3
+			ldsr2  r3, r2, 0x0
+			ldsr2  r5, 0x3F200000, 0x0
+			calltv r3, Hel.Vector3.this(float,float,float)
+			calltv r1, GObj.Location.setToCenter(const ref Hel.Vector3)
+			sppop  r2, Hel.Vector3
+			ldsrsr r2, r0
+			calltr r1, Scn.Step.Chara.Obj.vacuumReceiver()
+			ldsrc4 r2, %ELEMENT_ID%
+			calltv r1, Scn.Step.Vacuum.Receiver.setAbilityElement(uint)
+			fleave r0
+		}
+	}
+}

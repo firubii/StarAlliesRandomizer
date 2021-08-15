@@ -1,0 +1,110 @@
+script Scn.Step.Chara.MetaKnight.DeadBody.Setting
+{
+	util class Scn.Step.Chara.MetaKnight.DeadBody.Setting
+	{
+		delegate void Init(Scn.Step.Chara.SettingData)
+		{
+			fenter 5, 1, 0
+			ldsr2  r1, r0, r1
+			ldsr2  r3, r2, 0x0
+			calltv r3, Scn.Step.Chara.SettingData.setModelHeapSize(int)
+			ldsr2  r1, r0, 0x2
+			calltv r1, Scn.Step.Chara.SettingData.setModelHeapSize(int)
+			ldsrsr r1, r0
+			ldsrzr r2
+			calltv r1, Scn.Step.Chara.SettingData.setUseMapColl(bool)
+			fleave r0
+		}
+		
+		delegate void InitAfterCreateModule(Scn.Step.Chara.Obj)
+		{
+			fenter 12, 1, 0
+			ldsr2  r1, r0, r1
+			call   r2, Scn.Step.Chara.SettingUtil.InitWeaponAfterCreateModule(Scn.Step.Chara.Obj)
+			ldsrsr r4, r1
+			calltr r3, Scn.Step.Chara.Obj.objColl()
+			calltr r2, Scn.Step.Chara.ObjColl.bodyColl()
+			calltv r2, Scn.Step.OColl.BodyColl.clearNode()
+			ldsrsr r2, r0
+			calltr r1, Scn.Step.Chara.Obj.gearModelCtrl()
+			ldsrca r2, "Common/Hero/Metaknight/Sword"
+			calltv r1, Scn.Step.Chara.GearModelCtrl.init(string)
+			ldsrsr r3, r0
+			calltr r2, Scn.Step.Chara.Obj.gearModelCtrl()
+			calltr r1, Scn.Step.Chara.GearModelCtrl.model()
+			sppsh  r2, G3D.NodeRef
+			ldsrsr r4, r0
+			calltr r3, Scn.Step.Chara.Obj.model()
+			ldsrc4 r4, 0x1
+			calltr r2, Scn.Step.CharaUtil.Model.node(uint)
+			calltv r1, G3D.StdModel.setParent(const ref G3D.NodeRef)
+			sppop  r2, G3D.NodeRef
+			ldsrsr r2, r0
+			calltr r1, Scn.Step.Chara.Obj.vacuumReceiver()
+			ldsrc4 r2, 0x0
+			calltv r1, Scn.Step.Vacuum.Receiver.setAbilityType(int)
+			ldsrsr r2, r0
+			calltr r1, Scn.Step.Chara.Obj.vacuumReceiver()
+			ldsrc4 r2, %ABILITY_ID%
+			calltv r1, Scn.Step.Vacuum.Receiver.setAbilityKind(int)
+			ldsrsr r2, r0
+			calltr r1, Scn.Step.Chara.Obj.kibidangoTarget()
+			ldsrbt r2
+			calltv r1, Scn.Step.Kibidango.Target.setIsValid(bool)
+			ldsrsr r2, r0
+			calltr r1, Scn.Step.Chara.Obj.kibidangoTarget()
+			ldsrbt r2
+			calltv r1, Scn.Step.Kibidango.Target.setIsEnableTarget(bool)
+			ldsrsr r2, r0
+			calltr r1, Scn.Step.Chara.Obj.kibidangoTarget()
+			sppshz r2, Hel.Geo.Aabb3
+			ldsrsr r3, r2
+			sppsh  r4, Hel.Vector3
+			sppsh  r5, Hel.Vector3
+			sppsh  r6, Hel.Vector3
+			sppshz r7, Hel.Vector3
+			ldsr2  r8, r7, 0x0
+			ldsr2  r10, 0x3F800000, 0x0
+			calltv r8, Hel.Vector3.this(float,float,float)
+			mcopys r6, r7, Hel.Vector3
+			sppop  r7, Hel.Vector3
+			mcopys r5, r6, Hel.Vector3
+			sppop  r6, Hel.Vector3
+			ldsrc4 r6, 0x3F000000
+			calltr r4, Hel.Vector3.opMul(float)const
+			ldsr2  r5, 0x3F800000, 0x3F800000
+			ldsrc4 r7, 0x40400000
+			calltv r3, Hel.Geo.Aabb3.this(const ref Hel.Vector3,float,float,float)
+			calltv r1, Scn.Step.Kibidango.Target.setBaseAmbit(const ref Hel.Geo.Aabb3)
+			sppop  r5, Hel.Vector3
+			sppop  r4, Hel.Vector3
+			sppop  r2, Hel.Geo.Aabb3
+			ldsrsr r2, r0
+			calltr r1, Scn.Step.Chara.Obj.culling()
+			ldsrzr r2
+			calltv r1, Scn.Step.CharaUtil.Culling.setIsValid(bool)
+			ldsrsr r3, r0
+			calltr r2, Scn.Step.Chara.Obj.model()
+			calltr r1, Scn.Step.CharaUtil.Model.scaleCtrl()
+			ldsrsv r2, 35595829
+			calltv r1, Scn.Step.CharaUtil.ModelScaleCtrl.setModelScale(float)
+			ldsrsr r2, r0
+			call   r1, Scn.Step.Chara.MetaKnight.MetaKnightUtil.IsUltimate(Scn.Step.Chara.Obj)
+			jmpneg r1, return
+			ldsrsr r1, r0
+			ldsrsr r6, r1
+			calltr r5, Scn.Step.Chara.Obj.model()
+			calltr r4, Scn.Step.CharaUtil.Model.model()
+			calltr r3, GObj.Model.g3dModel()
+			ldsr2  r2, r3, r2
+			call   r3, Scn.Step.Chara.UltimateUtil.ChangeColor(G3D.Model)
+			
+			return:
+			ldsrsr r2, r0
+			calltr r1, Scn.Step.Chara.Obj.vacuumReceiver()
+			ldsrc4 r2, %ELEMENT_ID%
+			calltv r1, Scn.Step.Vacuum.Receiver.setAbilityElement(uint)
+			fleave r0
+		}
+	}
+}

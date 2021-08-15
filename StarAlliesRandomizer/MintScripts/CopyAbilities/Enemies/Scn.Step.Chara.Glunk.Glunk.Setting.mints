@@ -1,0 +1,305 @@
+script Scn.Step.Chara.Glunk.Glunk.Setting
+{
+	util class Scn.Step.Chara.Glunk.Glunk.Setting
+	{
+		delegate void Init(Scn.Step.Chara.SettingData)
+		{
+			fenter 7, 1, 0
+			ldsrsr r1, r0
+			call   r1, Scn.Step.Chara.SettingUtil.InitEnemy(Scn.Step.Chara.SettingData)
+			ldsr2  r1, r0, %ABILITY_ID%
+			calltv r1, Scn.Step.Chara.SettingData.setAbilityKind(int)
+			ldsrsr r1, r0
+			ldsrzr r2
+			calltv r1, Scn.Step.Chara.SettingData.setIsDeadInWater(bool)
+			ldsrsr r1, r0
+			ldsrzr r2
+			calltv r1, Scn.Step.Chara.SettingData.setIsDeadInWaterAtOnce(bool)
+			ldsrsr r1, r0
+			sppshz r2, Hel.Vector3
+			ldsr2  r3, r2, 0x0
+			ldsr2  r5, 0x3F000000, 0x0
+			calltv r3, Hel.Vector3.this(float,float,float)
+			calltv r1, Scn.Step.Chara.SettingData.setCenterOffs(const ref Hel.Vector3)
+			sppop  r2, Hel.Vector3
+			ldsrsr r1, r0
+			ldsrc4 r3, 0x1
+			ldsrsv r4, Scn.Step.Chara.HitPointUtil.HitPointTable
+			ldsr2  r5, r3, 0x10
+			astidx r3, r6
+			aridx  r4, r3
+			ldsra4 r2, r4
+			calltv r1, Scn.Step.Chara.SettingData.setHitPoint(int)
+			ldsrsr r1, r0
+			ldsrzr r2
+			calltv r1, Scn.Step.Chara.SettingData.setIsNururiValid(bool)
+			fleave r0
+		}
+		
+		delegate void InitAfterCreateModule(Scn.Step.Chara.Obj)
+		{
+			fenter 14, 1, 0
+			ldsrsr r1, r0
+			call   r1, Scn.Step.Chara.SettingUtil.InitEnemyAfterCreateModule(Scn.Step.Chara.Obj)
+			ldsrsr r4, r0
+			calltr r3, Scn.Step.Chara.Obj.model()
+			calltr r2, Scn.Step.CharaUtil.Model.rotCtrl()
+			calltr r1, Scn.Step.CharaUtil.ModelRotCtrlSet.rotH()
+			sppsh  r2, Hel.Util.Angle
+			ldsrc4 r3, 0x0
+			callnv r2, Hel.Util.Angle.FromDeg(float)
+			calltv r1, GObj.RotCtrl2d.setRotTargetDefault(const ref Hel.Util.Angle)
+			sppop  r2, Hel.Util.Angle
+			ldsrsr r4, r0
+			calltr r3, Scn.Step.Chara.Obj.model()
+			calltr r2, Scn.Step.CharaUtil.Model.rotCtrl()
+			calltr r1, Scn.Step.CharaUtil.ModelRotCtrlSet.rotH()
+			ldsrc4 r2, 0x3F800000
+			calltv r1, GObj.RotCtrl2d.setRotIntpRateDefault(float)
+			ldsrsr r4, r0
+			calltr r3, Scn.Step.Chara.Obj.model()
+			calltr r2, Scn.Step.CharaUtil.Model.rotCtrl()
+			calltr r1, Scn.Step.CharaUtil.ModelRotCtrlSet.rotV()
+			sppsh  r2, Hel.Util.Angle
+			ldsrsr r4, r0
+			ldsrsr r9, r4
+			calltr r8, Scn.Step.Chara.Obj.dirType()const
+			ldsrc4 r7, 0x0
+			eqi32  r7, r8, r7
+			jmpneg r7, loc_00000023
+			addf32 r7, 0x43340000, 0x43340000
+			ldsrc4 r8, 0x3F800000
+			negf32 r8, r8
+			mulf32 r7, r7, r8
+			ldsrsr r5, r7
+			jmp    loc_0000005b
+			
+			loc_00000023:
+			ldsr2  r9, r4, 0x0
+			ldsrsr r12, r9
+			calltr r11, Scn.Step.Chara.Obj.dirType()const
+			ldsrc4 r12, 0x4
+			eqi32  r13, r11, r12
+			jmppos r13, loc_0000003f
+			ldsrc4 r12, 0x7
+			eqi32  r13, r11, r12
+			jmppos r13, loc_00000042
+			ldsrc4 r12, 0x3
+			eqi32  r13, r11, r12
+			jmppos r13, loc_00000045
+			ldsrc4 r12, 0x9
+			eqi32  r13, r11, r12
+			jmppos r13, loc_00000048
+			ldsrc4 r12, 0x5
+			eqi32  r13, r11, r12
+			jmppos r13, loc_0000004b
+			ldsrc4 r12, 0x8
+			eqi32  r13, r11, r12
+			jmppos r13, loc_0000004e
+			ldsrc4 r12, 0x2
+			eqi32  r13, r11, r12
+			jmppos r13, loc_00000051
+			ldsrc4 r12, 0x6
+			eqi32  r13, r11, r12
+			jmppos r13, loc_00000054
+			jmp    loc_00000056
+			
+			loc_0000003f:
+			ldsrc4 r11, 0x0
+			ldsrsr r10, r11
+			jmp    loc_00000056
+			
+			loc_00000042:
+			ldsrc4 r11, 0x42340000
+			ldsrsr r10, r11
+			jmp    loc_00000056
+			
+			loc_00000045:
+			ldsrc4 r11, 0x42B40000
+			ldsrsr r10, r11
+			jmp    loc_00000056
+			
+			loc_00000048:
+			ldsrc4 r11, 0x43070000
+			ldsrsr r10, r11
+			jmp    loc_00000056
+			
+			loc_0000004b:
+			ldsrc4 r11, 0x43340000
+			ldsrsr r10, r11
+			jmp    loc_00000056
+			
+			loc_0000004e:
+			ldsrc4 r11, 0x43610000
+			ldsrsr r10, r11
+			jmp    loc_00000056
+			
+			loc_00000051:
+			ldsrc4 r11, 0x43870000
+			ldsrsr r10, r11
+			jmp    loc_00000056
+			
+			loc_00000054:
+			ldsrc4 r11, 0x439D8000
+			ldsrsr r10, r11
+			
+			loc_00000056:
+			ldsrsr r8, r10
+			ldsrc4 r7, 0x3F800000
+			negf32 r7, r7
+			mulf32 r7, r8, r7
+			ldsrsr r5, r7
+			
+			loc_0000005b:
+			ldsrsr r6, r5
+			
+			loc_0000005c:
+			ltf32  r7, r6, 0x0
+			jmpneg r7, loc_00000061
+			ldsrc4 r7, 0x43B40000
+			addf32 r6, r6, r7
+			jmp    loc_0000005c
+			
+			loc_00000061:
+			ldsrsr r3, r6
+			callnv r2, Hel.Util.Angle.FromDeg(float)
+			calltv r1, GObj.RotCtrl2d.initRot(const ref Hel.Util.Angle)
+			sppop  r2, Hel.Util.Angle
+			ldsrsr r2, r0
+			calltr r1, Scn.Step.Chara.Obj.model()
+			calltv r1, Scn.Step.CharaUtil.Model.updateWorldMtx()
+			sppsh  r3, Hel.Util.Angle
+			ldsrsr r7, r0
+			calltr r6, Scn.Step.Chara.Obj.model()
+			calltr r5, Scn.Step.CharaUtil.Model.rotCtrl()
+			calltr r4, Scn.Step.CharaUtil.ModelRotCtrlSet.rotV()
+			calltr r3, GObj.RotCtrl2d.rotTarget()const
+			calltr r2, Hel.Util.Angle.deg()const
+			ldsrsr r1, r2
+			sppop  r3, Hel.Util.Angle
+			ldsr2  r3, r0, r1
+			sppsh  r5, Hel.Vector2
+			sppsh  r6, Hel.Vector2
+			sppsh  r7, Hel.Vector3
+			sppsh  r8, G3D.NodeRef
+			ldsrsr r10, r3
+			calltr r9, Scn.Step.Chara.Obj.model()
+			calltr r8, Scn.Step.CharaUtil.Model.nodeRoot()
+			calltr r7, G3D.NodeRef.worldTrans()const
+			calltr r6, Hel.Vector3.toXY()const
+			mcopys r5, r6, Hel.Vector2
+			sppop  r8, G3D.NodeRef
+			sppop  r7, Hel.Vector3
+			sppop  r6, Hel.Vector2
+			sppsh  r6, Hel.Vector2
+			sppshz r7, Hel.Vector2
+			ldsr2  r8, r7, 0x3DCCCCCD
+			negf32 r9, r9
+			ldsrc4 r10, 0x3F000000
+			negf32 r10, r10
+			calltv r8, Hel.Vector2.this(float,float)
+			mcopys r6, r7, Hel.Vector2
+			sppop  r7, Hel.Vector2
+			sppsh  r7, Hel.Vector2
+			sppshz r8, Hel.Vector2
+			ldsr2  r9, r8, 0x3DCCCCCD
+			ldsrc4 r11, 0x3F000000
+			negf32 r11, r11
+			calltv r9, Hel.Vector2.this(float,float)
+			mcopys r7, r8, Hel.Vector2
+			sppop  r8, Hel.Vector2
+			ldsr2  r8, r6, r4
+			calltv r8, Hel.Vector2.rotateDegAssign(float)
+			ldsr2  r8, r7, r4
+			calltv r8, Hel.Vector2.rotateDegAssign(float)
+			ldsr2  r8, r6, r5
+			calltv r8, Hel.Vector2.opAddAssign(const ref Hel.Vector2)
+			ldsr2  r8, r7, r5
+			calltv r8, Hel.Vector2.opAddAssign(const ref Hel.Vector2)
+			ldsrsr r12, r3
+			calltr r11, Scn.Step.Chara.Obj.comp()
+			calltr r10, Scn.Step.Component.mapLandManager()
+			calltr r9, Scn.Step.Map.LandManager.native()
+			ldsrsr r8, r9
+			ldsr2  r10, r8, r6
+			ldsrc4 r2, 0x0
+			ldsrsr r12, r2
+			calltr r9, MColl.LandManager.isInLand(const ref Hel.Vector2,int)const
+			ldsrsr r2, r9
+			jmppos r2, loc_000000a8
+			ldsr2  r10, r8, r7
+			ldsrc4 r2, 0x0
+			ldsrsr r12, r2
+			calltr r9, MColl.LandManager.isInLand(const ref Hel.Vector2,int)const
+			ldsrsr r2, r9
+			
+			loc_000000a8:
+			sppop  r7, Hel.Vector2
+			sppop  r6, Hel.Vector2
+			sppop  r5, Hel.Vector2
+			jmp    loc_000000af
+			sppop  r7, Hel.Vector2
+			sppop  r6, Hel.Vector2
+			sppop  r5, Hel.Vector2
+			
+			loc_000000af:
+			jmpneg r2, loc_000000dd
+			ldsr2  r2, r0, r1
+			sppsh  r6, Hel.Vector3
+			ldsrsr r8, r2
+			calltr r7, Scn.Step.Chara.Obj.location()
+			calltr r6, GObj.Location.toCenter()const
+			ldofa4 r4, r6, Hel.Vector3.y
+			mulf32 r4, r4, 0x40000000
+			ldsrsr r6, r4
+			callnv r5, Hel.Math.Abs(float)
+			subf32 r4, 0x3F800000, r5
+			ldsrsr r8, r3
+			callnv r7, Hel.Math.SinDeg(float)
+			callnv r6, Hel.Math.Abs(float)
+			addf32 r5, r6, 0x3F800000
+			divf32 r4, r4, r5
+			sppop  r6, Hel.Vector3
+			sppshz r5, Hel.Vector2
+			ldsr2  r6, r5, 0x0
+			ldsrc4 r8, 0x3F800000
+			negf32 r8, r8
+			calltv r6, Hel.Vector2.this(float,float)
+			ldsr2  r6, r5, r3
+			calltv r6, Hel.Vector2.rotateDegAssign(float)
+			ldsr2  r6, r5, r4
+			calltv r6, Hel.Vector2.opMulAssign(float)
+			sppsh  r6, Hel.Vector3
+			sppsh  r7, Hel.Vector3
+			sppsh  r8, Hel.Vector3
+			ldsrsr r10, r2
+			calltr r9, Scn.Step.Chara.Obj.location()
+			calltr r8, GObj.Location.pos()const
+			sppsh  r9, Hel.Vector3
+			ldsrsr r10, r5
+			calltr r9, Hel.Vector2.toXY0()const
+			calltr r7, Hel.Vector3.opAdd(const ref Hel.Vector3)const
+			mcopys r6, r7, Hel.Vector3
+			sppop  r9, Hel.Vector3
+			sppop  r8, Hel.Vector3
+			sppop  r7, Hel.Vector3
+			ldsrsr r8, r2
+			calltr r7, Scn.Step.Chara.Obj.location()
+			ldsrsr r8, r6
+			calltv r7, GObj.Location.setPos(const ref Hel.Vector3)
+			sppop  r6, Hel.Vector3
+			sppop  r5, Hel.Vector2
+			
+			loc_000000dd:
+			ldsrsr r2, r0
+			calltr r1, Scn.Step.Chara.Obj.objCollReactor()
+			ldsrca r2, "Scn.Step.Chara.Glunk.Glunk.ObjCollReact.OnDamaged"
+			calltv r1, Scn.Step.Chara.ObjCollReactor.setCustomEntryPointOnDamage(string)
+			ldsrsr r2, r0
+			calltr r1, Scn.Step.Chara.Obj.vacuumReceiver()
+			ldsrc4 r2, %ELEMENT_ID%
+			calltv r1, Scn.Step.Vacuum.Receiver.setAbilityElement(uint)
+			fleave r0
+		}
+	}
+}

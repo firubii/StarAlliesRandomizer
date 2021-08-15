@@ -1,0 +1,314 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{0393A318-1220-4A7E-B112-B65AC6F2C94C}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>StarAlliesRandomizer</RootNamespace>
+    <AssemblyName>StarAlliesRandomizer</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Crc32C.NET, Version=1.0.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Crc32C.NET.1.0.5.0\lib\net20\Crc32C.NET.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAPICodePack, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.WindowsAPICodePack-Core.1.1.0.0\lib\Microsoft.WindowsAPICodePack.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAPICodePack.Shell, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.WindowsAPICodePack-Shell.1.1.0.0\lib\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAPICodePack.ShellExtensions, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.WindowsAPICodePack-Shell.1.1.0.0\lib\Microsoft.WindowsAPICodePack.ShellExtensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Mint\FlagLabels.cs" />
+    <Compile Include="Mint\MintVersions.cs" />
+    <Compile Include="Mint\OpcodeInfo.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Types\Archive.cs" />
+    <Compile Include="Types\MintClass.cs" />
+    <Compile Include="Types\MintFunction.cs" />
+    <Compile Include="Types\MintScript.cs" />
+    <Compile Include="Types\MintVariable.cs" />
+    <Compile Include="Types\XData.cs" />
+    <Compile Include="Types\Yaml.cs" />
+    <Compile Include="Util\EndianBinaryReader.cs" />
+    <Compile Include="Util\EndianBinaryWriter.cs" />
+    <Compile Include="Util\Util.cs" />
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="MintScripts\CopyAbilities\Enemies\Scn.Step.Chara.Beetlie.Beetlie.Setting.mints">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="MintScripts\CopyAbilities\Enemies\Scn.Step.Chara.BigBouncy.BigBouncy.Setting.mints">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="MintScripts\CopyAbilities\Enemies\Scn.Step.Chara.BioSpark.BioSpark.Setting.mints">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="MintScripts\CopyAbilities\Enemies\Scn.Step.Chara.Birdon.Birdon.Setting.mints">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="MintScripts\CopyAbilities\Enemies\Scn.Step.Chara.Bladeknight.Bladeknight.Setting.mints">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="MintScripts\CopyAbilities\Enemies\Scn.Step.Chara.Blipper.Blipper.Setting.mints">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="MintScripts\CopyAbilities\Enemies\Scn.Step.Chara.Bomber.Bomber.Setting.mints">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="MintScripts\CopyAbilities\Enemies\Scn.Step.Chara.Bonkers.Bonkers.Setting.mints">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="MintScripts\CopyAbilities\Enemies\Scn.Step.Chara.Bouncy.Bouncy.Setting.mints">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="MintScripts\CopyAbilities\Enemies\Scn.Step.Chara.Brontoburt.Brontoburt.Setting.mints">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="MintScripts\CopyAbilities\Enemies\Scn.Step.Chara.Broomhatter.Broomhatter.Setting.mints">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="MintScripts\CopyAbilities\Enemies\Scn.Step.Chara.Bugzzy.Bugzzy.Setting.mints">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="MintScripts\CopyAbilities\Enemies\Scn.Step.Chara.Burningleo.Burningleo.Setting.mints">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="MintScripts\CopyAbilities\Enemies\Scn.Step.Chara.Cappy.Cappy.Setting.mints">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="MintScripts\CopyAbilities\Enemies\Scn.Step.Chara.Cappy.Hat.Setting.mints">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="MintScripts\CopyAbilities\Enemies\Scn.Step.Chara.ChefKawasaki.ChefKawasaki.Setting.mints">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="MintScripts\CopyAbilities\Enemies\Scn.Step.Chara.Chilly.Chilly.Setting.mints">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="MintScripts\CopyAbilities\Enemies\Scn.Step.Chara.Chip.Chip.Setting.mints">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="MintScripts\CopyAbilities\Enemies\Scn.Step.Chara.Como.Como.Setting.mints">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="MintScripts\CopyAbilities\Enemies\Scn.Step.Chara.Conce.Conce.Setting.mints">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="MintScripts\CopyAbilities\Enemies\Scn.Step.Chara.Coner.Coner.Setting.mints">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="MintScripts\CopyAbilities\Enemies\Scn.Step.Chara.Dekabu.Dekabu.Setting.mints">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="MintScripts\CopyAbilities\Enemies\Scn.Step.Chara.Dekabu.Kokabu.Setting.mints">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="MintScripts\CopyAbilities\Enemies\Scn.Step.Chara.EnemyCommon.DropStar.Setting.mints">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="MintScripts\CopyAbilities\Enemies\Scn.Step.Chara.EnemyCommon.Parasol.Setting.mints">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="MintScripts\CopyAbilities\Enemies\Scn.Step.Chara.FestivalEnemy.FestivalEnemy.Setting.mints">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="MintScripts\CopyAbilities\Enemies\Scn.Step.Chara.FloatSlime.FloatSlime.Setting.mints">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="MintScripts\CopyAbilities\Enemies\Scn.Step.Chara.Gabon.Gabon.Setting.mints">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="MintScripts\CopyAbilities\Enemies\Scn.Step.Chara.Gabon.Skull.Setting.mints">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="MintScripts\CopyAbilities\Enemies\Scn.Step.Chara.Gim.Gim.Setting.mints">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="MintScripts\CopyAbilities\Enemies\Scn.Step.Chara.Glunk.Glunk.Setting.mints">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="MintScripts\CopyAbilities\Enemies\Scn.Step.Chara.Gordo.Gordo.Setting.mints">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="MintScripts\CopyAbilities\Enemies\Scn.Step.Chara.Grizzo.Grizzo.Setting.mints">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="MintScripts\CopyAbilities\Enemies\Scn.Step.Chara.Jaharbeliever.Jaharbeliever.Setting.mints">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="MintScripts\CopyAbilities\Enemies\Scn.Step.Chara.Kabu.Kabu.Setting.mints">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="MintScripts\CopyAbilities\Enemies\Scn.Step.Chara.Kingdedede.DeadBody.Setting.mints">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="MintScripts\CopyAbilities\Enemies\Scn.Step.Chara.Knucklejoe.Knucklejoe.Setting.mints">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="MintScripts\CopyAbilities\Enemies\Scn.Step.Chara.Mamatee.Mamatee.Setting.mints">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="MintScripts\CopyAbilities\Enemies\Scn.Step.Chara.Marx.Cutter.Setting.mints">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="MintScripts\CopyAbilities\Enemies\Scn.Step.Chara.Marx.IceBall.Setting.mints">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="MintScripts\CopyAbilities\Enemies\Scn.Step.Chara.MaskEnemy.MaskEnemy.Setting.mints">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="MintScripts\CopyAbilities\Enemies\Scn.Step.Chara.MetaKnight.DeadBody.Setting.mints">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="MintScripts\CopyAbilities\Enemies\Scn.Step.Chara.Misterfrosty.Misterfrosty.Setting.mints">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="MintScripts\CopyAbilities\Enemies\Scn.Step.Chara.Nesp.Nesp.Setting.mints">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="MintScripts\CopyAbilities\Enemies\Scn.Step.Chara.Noddy.Noddy.Setting.mints">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="MintScripts\CopyAbilities\Enemies\Scn.Step.Chara.Nruff.Nruff.Setting.mints">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="MintScripts\CopyAbilities\Enemies\Scn.Step.Chara.Poppybrosjr.Poppybrosjr.Setting.mints">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="MintScripts\CopyAbilities\Enemies\Scn.Step.Chara.Propeller.Propeller.Setting.mints">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="MintScripts\CopyAbilities\Enemies\Scn.Step.Chara.Rocky.Rocky.Setting.mints">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="MintScripts\CopyAbilities\Enemies\Scn.Step.Chara.Scarfy.Scarfy.Setting.mints">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="MintScripts\CopyAbilities\Enemies\Scn.Step.Chara.ShieldEnemy.ShieldEnemy.Setting.mints">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="MintScripts\CopyAbilities\Enemies\Scn.Step.Chara.Shotzo.Shotzo.Setting.mints">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="MintScripts\CopyAbilities\Enemies\Scn.Step.Chara.Sirkibble.Sirkibble.Setting.mints">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="MintScripts\CopyAbilities\Enemies\Scn.Step.Chara.Squishy.Squishy.Setting.mints">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="MintScripts\CopyAbilities\Enemies\Scn.Step.Chara.StickEnemy.StickEnemy.Setting.mints">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="MintScripts\CopyAbilities\Enemies\Scn.Step.Chara.TwoFace.TwoFace.Setting.mints">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="MintScripts\CopyAbilities\Enemies\Scn.Step.Chara.Vivitia.Vivitia.Setting.mints">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="MintScripts\CopyAbilities\Enemies\Scn.Step.Chara.Waddledee.Waddledee.Setting.mints">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="MintScripts\CopyAbilities\Enemies\Scn.Step.Chara.Waddledoo.Waddledoo.Setting.mints">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="MintScripts\CopyAbilities\Enemies\Scn.Step.Chara.Walky.Walky.Setting.mints">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="MintScripts\CopyAbilities\Enemies\Scn.Step.Chara.WaterEnemy.WaterEnemy.Setting.mints">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="MintScripts\CopyAbilities\Enemies\Scn.Step.Chara.WeaponUtil.mints">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="MintScripts\CopyAbilities\Enemies\Scn.Step.Chara.Wester.Wester.Setting.mints">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="MintScripts\CopyAbilities\Enemies\Scn.Step.Chara.Whispywoods.Apple.Setting.mints">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="MintScripts\CopyAbilities\Enemies\Scn.Step.Chara.Wonkey.Wonkey.Setting.mints">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="MintScripts\CopyAbilities\FullRandom\Scn.Step.Hero.Common.StateDrink.mints">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="MintScripts\CopyAbilities\Mix\Scn.Step.Hero.Common.StateDrink.mints">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="MintScripts\Helpers\Scn.Step.Chara.KibidangoReact.mints">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

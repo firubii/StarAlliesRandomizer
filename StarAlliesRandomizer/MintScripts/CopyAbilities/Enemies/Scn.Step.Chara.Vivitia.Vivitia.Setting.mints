@@ -1,0 +1,232 @@
+script Scn.Step.Chara.Vivitia.Vivitia.Setting
+{
+	util class Scn.Step.Chara.Vivitia.Vivitia.Setting
+	{
+		delegate void Init(Scn.Step.Chara.SettingData)
+		{
+			fenter 8, 1, 0
+			ldsrsr r1, r0
+			call   r1, Scn.Step.Chara.SettingUtil.InitMBoss(Scn.Step.Chara.SettingData)
+			ldsr2  r1, r0, 0x2
+			calltv r1, Scn.Step.Chara.SettingData.setModelHeapSize(int)
+			ldsr2  r1, r0, %ABILITY_ID%
+			calltv r1, Scn.Step.Chara.SettingData.setAbilityKind(int)
+			ldsrsr r1, r0
+			ldsrbt r2
+			calltv r1, Scn.Step.Chara.SettingData.setUseDynamics(bool)
+			ldsrsr r3, r0
+			calltr r2, Scn.Step.Chara.SettingData.variation()const
+			ldsrc4 r1, 0x1
+			eqi32  r1, r2, r1
+			jmpneg r1, loc_00000012
+			ldsr2  r1, r0, 0x1D
+			calltv r1, Scn.Step.Chara.SettingData.setRetryCountKind(int)
+			jmp    loc_00000014
+			
+			loc_00000012:
+			ldsr2  r1, r0, 0x1E
+			calltv r1, Scn.Step.Chara.SettingData.setRetryCountKind(int)
+			
+			loc_00000014:
+			ldsrsr r4, r0
+			calltr r3, Scn.Step.Chara.SettingData.level()const
+			ldsrc4 r1, 0xB4
+			ldsr2  r4, r1, 0xC8
+			ldsr2  r6, 0xF0, 0x3
+			les32  r7, r7, r3
+			jmpneg r7, loc_0000001e
+			ldsrsr r2, r6
+			jmp    loc_00000025
+			jmp    loc_00000025
+			
+			loc_0000001e:
+			ldsrc4 r7, 0x2
+			eqi32  r7, r3, r7
+			jmpneg r7, loc_00000024
+			ldsrsr r2, r5
+			jmp    loc_00000025
+			jmp    loc_00000025
+			
+			loc_00000024:
+			ldsrsr r2, r4
+			
+			loc_00000025:
+			ldsrsr r1, r2
+			ldsrsr r3, r0
+			calltr r2, Scn.Step.Chara.SettingData.variation()const
+			ldsrc4 r3, 0x1
+			eqi32  r4, r2, r3
+			jmppos r4, loc_00000035
+			ldsrc4 r3, 0x2
+			eqi32  r4, r2, r3
+			jmppos r4, loc_00000038
+			ldsrc4 r3, 0x3
+			eqi32  r4, r2, r3
+			jmppos r4, loc_00000038
+			ldsrc4 r3, 0x4
+			eqi32  r4, r2, r3
+			jmppos r4, loc_0000003f
+			jmp    loc_00000046
+			
+			loc_00000035:
+			ldsr2  r2, r0, r1
+			calltv r2, Scn.Step.Chara.SettingData.setHitPoint(int)
+			jmp    return
+			
+			loc_00000038:
+			ldsrsr r2, r0
+			ctf32s r3, r1
+			ldsrsv r4, Scn.Step.Chara.HitPointUtil.MBossExHitPointRate
+			mulf32 r3, r3, r4
+			cts32f r3, r3
+			calltv r2, Scn.Step.Chara.SettingData.setHitPoint(int)
+			jmp    return
+			
+			loc_0000003f:
+			ctf32s r2, r1
+			ldsrsv r3, Scn.Step.Chara.HitPointUtil.MBossEx2HitPointRate
+			mulf32 r2, r2, r3
+			cts32f r2, r2
+			ldsr2  r3, r0, r2
+			calltv r3, Scn.Step.Chara.SettingData.setHitPoint(int)
+			jmp    return
+			
+			loc_00000046:
+			ldsr2  r2, r0, r1
+			calltv r2, Scn.Step.Chara.SettingData.setHitPoint(int)
+			
+			return:
+			fleave r0
+		}
+		
+		delegate void InitAfterCreateModule(Scn.Step.Chara.Obj)
+		{
+			fenter 12, 1, 0
+			ldsrsr r1, r0
+			call   r1, Scn.Step.Chara.SettingUtil.InitMBossAfterCreateModule(Scn.Step.Chara.Obj)
+			ldsrsr r1, r0
+			callnv r1, Scn.Step.Chara.DynamicsUtil.SetupDefault(Scn.Step.Chara.Obj)
+			ldsrsr r3, r0
+			calltr r2, Scn.Step.Chara.Obj.model()
+			calltr r1, Scn.Step.CharaUtil.Model.scaleCtrl()
+			ldsrc4 r2, 0x3F8CCCCD
+			calltv r1, Scn.Step.CharaUtil.ModelScaleCtrl.setBaseScale(float)
+			ldsrsr r3, r0
+			calltr r2, Scn.Step.Chara.Obj.variation()const
+			ldsrc4 r1, 0x4
+			eqi32  r1, r2, r1
+			jmpneg r1, loc_0000001d
+			ldsr2  r1, r0, r1
+			ldsr2  r3, 0x3F800000, 0x3F800000
+			ldsrsr r9, r2
+			calltr r8, Scn.Step.Chara.Obj.comp()
+			calltr r7, Scn.Step.Component.heroManager()
+			calltr r6, Scn.Step.Hero.Manager.damageRateCtrl()
+			ldsr2  r5, r6, r5
+			ldsr2  r7, r3, r4
+			calltv r6, Scn.Step.Hero.DamageRateCtrl.setDamageRate(float,float)
+			ldsr2  r6, r5, 0x3D4CCCCD
+			ldsrc4 r8, 0x3C23D70A
+			calltv r6, Scn.Step.Hero.DamageRateCtrl.setGuardWeakRate(float,float)
+			ldsrsr r6, r5
+			calltv r6, Scn.Step.Hero.DamageRateCtrl.setStarShotPowerUp()
+			
+			loc_0000001d:
+			ldsrsr r2, r0
+			calltr r1, Scn.Step.Chara.Obj.angryCtrl()
+			ldsr2  r2, 0x1, 0x3F0CCCCD
+			ldsrca r4, "Scn.Step.Chara.Vivitia.Vivitia.Brain.ExecAngry"
+			calltv r1, Scn.Step.Chara.AngryCtrl.setAngrySetting(int,float,string)
+			ldsr2  r2, r0, 0x2
+			ldsrsr r5, r2
+			calltr r4, Scn.Step.Chara.Obj.variation()const
+			eqi32  r3, r4, r3
+			jmppos r3, loc_0000002b
+			ldsrsr r5, r2
+			calltr r4, Scn.Step.Chara.Obj.variation()const
+			ldsrc4 r3, 0x3
+			eqi32  r3, r4, r3
+			
+			loc_0000002b:
+			jmppos r3, loc_00000030
+			ldsrsr r5, r2
+			calltr r4, Scn.Step.Chara.Obj.variation()const
+			ldsrc4 r3, 0x4
+			eqi32  r3, r4, r3
+			
+			loc_00000030:
+			jmpneg r3, loc_00000033
+			ldsrbt r1
+			jmp    loc_00000034
+			
+			loc_00000033:
+			ldsrzr r1
+			
+			loc_00000034:
+			jmpneg r1, loc_0000003c
+			ldsrsr r4, r0
+			calltr r3, Scn.Step.Chara.Obj.model()
+			calltr r2, Scn.Step.CharaUtil.Model.model()
+			calltr r1, GObj.Model.g3dModel()
+			ldsrc4 r2, 0x3F800000
+			call   r1, Scn.Step.Chara.Vivitia.Vivitia.Utility.ChangeEyeColor(G3D.Model,float)
+			jmp    loc_00000042
+			
+			loc_0000003c:
+			ldsrsr r4, r0
+			calltr r3, Scn.Step.Chara.Obj.model()
+			calltr r2, Scn.Step.CharaUtil.Model.model()
+			calltr r1, GObj.Model.g3dModel()
+			ldsrc4 r2, 0x0
+			call   r1, Scn.Step.Chara.Vivitia.Vivitia.Utility.ChangeEyeColor(G3D.Model,float)
+			
+			loc_00000042:
+			obnew  r2, Scn.Step.Chara.Vivitia.Vivitia.Custom
+			ldsr2  r3, r2, r0
+			call   r3, Scn.Step.Chara.Vivitia.Vivitia.Custom.this(Scn.Step.Chara.Obj)
+			ldsrsr r1, r2
+			ldsrsr r3, r0
+			calltr r2, Scn.Step.Chara.Obj.custom()
+			obname r3, r1
+			ldsrsr r4, r1
+			calltv r2, Scn.Step.CharaUtil.Custom.setObj(string,object)
+			ldsrsr r1, r0
+			sppsh  r2, Hel.Vector3
+			ldsrsr r4, r0
+			calltr r3, Scn.Step.Chara.Obj.location()
+			calltr r2, GObj.Location.pos()const
+			ldsrsr r4, r1
+			ldsrsr r7, r4
+			ldsrsr r11, r7
+			calltr r10, Scn.Step.Chara.Obj.custom()
+			calltr r9, Scn.Step.CharaUtil.Custom.obj()const
+			ldsrsr r8, r9
+			ctobja r8, Scn.Step.Chara.Vivitia.Vivitia.Custom
+			ldsrsr r6, r8
+			ldaddr r7, r6, Scn.Step.Chara.Vivitia.Vivitia.Custom.mWaftCtrl
+			ldsrap r5, r7
+			ldsr2  r3, r5, r2
+			ldaddr r5, r3, Scn.Step.Chara.Vivitia.Vivitia.WaftCtrl.mCenterPos
+			mcopys r5, r4, Hel.Vector3
+			sppop  r2, Hel.Vector3
+			sppsh  r2, Scn.Step.OColl.HitBranchProxy
+			ldsrsr r6, r0
+			calltr r5, Scn.Step.Chara.Obj.objColl()
+			calltr r4, Scn.Step.Chara.ObjColl.bodyColl()
+			calltr r3, Scn.Step.OColl.BodyColl.hit()
+			ldsrc4 r4, 0x0
+			calltr r2, Scn.Step.OColl.Hit.branch(int)
+			calltr r1, Scn.Step.OColl.HitBranchProxy.hitData()
+			ldsrc4 r2, 0x1
+			ldsrsv r3, Scn.Step.OColl.Element.WingToss
+			ldsrc4 r4, 0x0
+			calltv r1, OColl.HitData.setElement(int,uint,uint)
+			sppop  r2, Scn.Step.OColl.HitBranchProxy
+			ldsrsr r2, r0
+			calltr r1, Scn.Step.Chara.Obj.vacuumReceiver()
+			ldsrc4 r2, %ELEMENT_ID%
+			calltv r1, Scn.Step.Vacuum.Receiver.setAbilityElement(uint)
+			fleave r0
+		}
+	}
+}

@@ -1,0 +1,76 @@
+script Scn.Step.Chara.EnemyCommon.DropStar.Setting
+{
+	util class Scn.Step.Chara.EnemyCommon.DropStar.Setting
+	{
+		delegate void Init(Scn.Step.Chara.SettingData)
+		{
+			fenter 5, 1, 0
+			ldsr2  r1, r0, r1
+			ldsr2  r3, r2, 0x0
+			calltv r3, Scn.Step.Chara.SettingData.setModelHeapSize(int)
+			ldsr2  r1, r0, 0x3EFAE148
+			calltv r1, Scn.Step.Chara.SettingData.setMapCollRadius(float)
+			ldsrsr r1, r0
+			ldsrbt r2
+			calltv r1, Scn.Step.Chara.SettingData.setMapCollIsMoveRetryCountToZeroTime(bool)
+			ldsrsr r1, r0
+			ldsrbt r2
+			calltv r1, Scn.Step.Chara.SettingData.setCanCapture(bool)
+			ldsr2  r1, r0, 0x2
+			calltv r1, Scn.Step.Chara.SettingData.setCaptureIgnoreFlagMask(int)
+			ldsr2  r1, r0, 0x12E
+			calltv r1, Scn.Step.Chara.SettingData.setDeadEffect(int)
+			ldsrsr r1, r0
+			sppsh  r2, Snd.SeReqArg
+			ldsrc4 r3, 0x100023D
+			callnv r2, Snd.SeReqArg.Create(uint)
+			calltv r1, Scn.Step.Chara.SettingData.setDeadSound(const ref Snd.SeReqArg)
+			sppop  r2, Snd.SeReqArg
+			ldsr2  r1, r0, 0x10
+			calltv r1, Scn.Step.Chara.SettingData.setDeadQuake(int)
+			ldsrsr r1, r0
+			ldsrzr r2
+			calltv r1, Scn.Step.Chara.SettingData.setUseShadow(bool)
+			ldsrsr r1, r0
+			ldsrbt r2
+			calltv r1, Scn.Step.Chara.SettingData.setIsHelperAITarget(bool)
+			ldsrsr r1, r0
+			ldsrzr r2
+			calltv r1, Scn.Step.Chara.SettingData.setIsHelperAITargetHaveAttack(bool)
+			ldsrsr r1, r0
+			ldsrbt r2
+			calltv r1, Scn.Step.Chara.SettingData.setIsHelperAITargetRemoveHit(bool)
+			ldsr2  r1, r0, %ABILITY_ID%
+			calltv r1, Scn.Step.Chara.SettingData.setAbilityKind(int)
+			fleave r0
+		}
+		
+		delegate void InitAfterCreateModule(Scn.Step.Chara.Obj)
+		{
+			fenter 5, 1, 0
+			ldsr2  r1, r0, r1
+			call   r2, Scn.Step.Chara.SettingUtil.InitWeaponAfterCreateModule(Scn.Step.Chara.Obj)
+			ldsrsr r4, r1
+			calltr r3, Scn.Step.Chara.Obj.objColl()
+			calltr r2, Scn.Step.Chara.ObjColl.bodyColl()
+			calltv r2, Scn.Step.OColl.BodyColl.clearNode()
+			ldsrsr r2, r0
+			calltr r1, Scn.Step.Chara.Obj.vacuumReceiver()
+			ldsrc4 r2, 0x0
+			calltv r1, 93FB138B
+			ldsrsr r2, r0
+			calltr r1, Scn.Step.Chara.Obj.bodyRadiusCtrl()
+			ldsrc4 r2, 0x3F000000
+			calltv r1, Scn.Step.Chara.BodyRadiusCtrl.setBaseRadius(float)
+			ldsrsr r2, r0
+			calltr r1, Scn.Step.Chara.Obj.waterCtrl()
+			ldsrzr r2
+			calltv r1, Scn.Step.CharaUtil.WaterCtrl.setIsValid(bool)
+			ldsrsr r2, r0
+			calltr r1, Scn.Step.Chara.Obj.vacuumReceiver()
+			ldsrc4 r2, %ELEMENT_ID%
+			calltv r1, Scn.Step.Vacuum.Receiver.setAbilityElement(uint)
+			fleave r0
+		}
+	}
+}

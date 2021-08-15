@@ -1,0 +1,50 @@
+script Scn.Step.Chara.Marx.IceBall.Setting
+{
+	util class Scn.Step.Chara.Marx.IceBall.Setting
+	{
+		delegate void Init(Scn.Step.Chara.SettingData)
+		{
+			fenter 7, 1, 0
+			ldsrsr r1, r0
+			call   r1, Scn.Step.Chara.SettingUtil.InitEnemyWeapon(Scn.Step.Chara.SettingData)
+			ldsr2  r1, r0, 0x3E99999A
+			calltv r1, Scn.Step.Chara.SettingData.setMapCollRadius(float)
+			ldsrsr r1, r0
+			sppshz r2, Hel.Vector3
+			ldsr2  r3, r2, 0x0
+			ldsr2  r5, 0x0, 0x0
+			calltv r3, Hel.Vector3.this(float,float,float)
+			calltv r1, Scn.Step.Chara.SettingData.setCenterOffs(const ref Hel.Vector3)
+			sppop  r2, Hel.Vector3
+			ldsr2  r1, r0, 0x1
+			calltv r1, Scn.Step.Chara.SettingData.setHitPoint(int)
+			ldsr2  r1, r0, 0x40000000
+			calltv r1, Scn.Step.Chara.SettingData.setBaseScale(float)
+			ldsr2  r1, r0, 0x4FB
+			calltv r1, Scn.Step.Chara.SettingData.setDeadEffect(int)
+			ldsr2  r1, r0, %ABILITY_ID%
+			calltv r1, Scn.Step.Chara.SettingData.setAbilityKind(int)
+			fleave r0
+		}
+		
+		delegate void InitAfterCreateModule(Scn.Step.Chara.Obj)
+		{
+			fenter 5, 1, 0
+			ldsr2  r1, r0, r1
+			call   r2, Scn.Step.Chara.SettingUtil.InitWeaponAfterCreateModule(Scn.Step.Chara.Obj)
+			ldsrsr r4, r1
+			calltr r3, Scn.Step.Chara.Obj.objColl()
+			calltr r2, Scn.Step.Chara.ObjColl.bodyColl()
+			calltv r2, Scn.Step.OColl.BodyColl.clearNode()
+			ldsrsr r2, r0
+			calltr r1, Scn.Step.Chara.Obj.vacuumReceiver()
+			ldsrc4 r2, 0x0
+			calltv r1, Scn.Step.Vacuum.Receiver.setResistLv(int)
+			ldsrsr r2, r0
+			calltr r1, Scn.Step.Chara.Obj.vacuumReceiver()
+			ldsrc4 r2, %ELEMENT_ID%
+			calltv r1, Scn.Step.Vacuum.Receiver.setAbilityElement(uint)
+			fleave r0
+		}
+	}
+}

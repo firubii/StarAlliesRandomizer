@@ -1,0 +1,72 @@
+script Scn.Step.Chara.Bladeknight.Bladeknight.Setting
+{
+	util class Scn.Step.Chara.Bladeknight.Bladeknight.Setting
+	{
+		delegate void Init(Scn.Step.Chara.SettingData)
+		{
+			fenter 7, 1, 0
+			ldsrsr r1, r0
+			call   r1, Scn.Step.Chara.SettingUtil.InitEnemy(Scn.Step.Chara.SettingData)
+			ldsrsr r1, r0
+			ldsrc4 r3, 0x3
+			ldsrsv r4, Scn.Step.Chara.HitPointUtil.HitPointTable
+			ldsr2  r5, r3, 0x10
+			astidx r3, r6
+			aridx  r4, r3
+			ldsra4 r2, r4
+			calltv r1, Scn.Step.Chara.SettingData.setHitPoint(int)
+			ldsrsr r1, r0
+			ldsrbt r2
+			calltv r1, Scn.Step.Chara.SettingData.setUseDynamics(bool)
+			ldsr2  r1, r0, %ABILITY_ID%
+			calltv r1, Scn.Step.Chara.SettingData.setAbilityKind(int)
+			ldsrsr r1, r0
+			ldsrsv r2, Scn.Step.CreditUtil.AbilityEnemyScore
+			calltv r1, Scn.Step.Chara.SettingData.setCreditScore(int)
+			fleave r0
+		}
+		
+		delegate void InitAfterCreateModule(Scn.Step.Chara.Obj)
+		{
+			fenter 5, 1, 0
+			ldsrsr r1, r0
+			call   r1, Scn.Step.Chara.SettingUtil.InitEnemyAfterCreateModule(Scn.Step.Chara.Obj)
+			ldsr2  r1, r0, 0x3C23D70A
+			callnv r1, Scn.Step.Chara.DynamicsUtil.SetupDefaultCustomGravity(Scn.Step.Chara.Obj,float)
+			ldsrsr r2, r0
+			calltr r1, Scn.Step.Chara.Obj.gearModelCtrl()
+			ldsrca r2, "Common/Hero/Kirby/Sword/Sword"
+			calltv r1, Scn.Step.Chara.GearModelCtrl.init(string)
+			ldsrsr r2, r0
+			calltr r1, Scn.Step.Chara.Obj.gearModelCtrl()
+			ldsrca r2, "Common/Hero/Bladeknight/Sword"
+			calltv r1, Scn.Step.Chara.GearModelCtrl.initAnimPath(string)
+			ldsrsr r3, r0
+			calltr r2, Scn.Step.Chara.Obj.gearModelCtrl()
+			calltr r1, Scn.Step.Chara.GearModelCtrl.model()
+			sppsh  r2, G3D.NodeRef
+			ldsrsr r4, r0
+			calltr r3, Scn.Step.Chara.Obj.model()
+			ldsrca r4, "LHaveL"
+			calltr r2, Scn.Step.CharaUtil.Model.node(string)
+			calltv r1, G3D.StdModel.setParent(const ref G3D.NodeRef)
+			sppop  r2, G3D.NodeRef
+			ldsrsr r3, r0
+			calltr r2, Scn.Step.Chara.Obj.variation()const
+			ldsrc4 r1, 0x0
+			eqi32  r1, r2, r1
+			jmpneg r1, return
+			ldsrsr r2, r0
+			calltr r1, Scn.Step.Chara.Obj.culling()
+			ldsrzr r2
+			calltv r1, Scn.Step.CharaUtil.Culling.setIsValid(bool)
+			
+			return:
+			ldsrsr r2, r0
+			calltr r1, Scn.Step.Chara.Obj.vacuumReceiver()
+			ldsrc4 r2, %ELEMENT_ID%
+			calltv r1, Scn.Step.Vacuum.Receiver.setAbilityElement(uint)
+			fleave r0
+		}
+	}
+}

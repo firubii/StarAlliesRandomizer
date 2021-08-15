@@ -1,0 +1,126 @@
+script Scn.Step.Chara.Wester.Wester.Setting
+{
+	util class Scn.Step.Chara.Wester.Wester.Setting
+	{
+		delegate void Init(Scn.Step.Chara.SettingData)
+		{
+			fenter 7, 1, 0
+			ldsrsr r1, r0
+			call   r1, Scn.Step.Chara.SettingUtil.InitEnemy(Scn.Step.Chara.SettingData)
+			ldsrsr r1, r0
+			ldsrc4 r3, 0x3
+			ldsrsv r4, Scn.Step.Chara.HitPointUtil.HitPointTable
+			ldsr2  r5, r3, 0x10
+			astidx r3, r6
+			aridx  r4, r3
+			ldsra4 r2, r4
+			calltv r1, Scn.Step.Chara.SettingData.setHitPoint(int)
+			ldsr2  r1, r0, %ABILITY_ID%
+			calltv r1, Scn.Step.Chara.SettingData.setAbilityKind(int)
+			ldsrsr r1, r0
+			ldsrsv r2, Scn.Step.CreditUtil.AbilityEnemyScore
+			calltv r1, Scn.Step.Chara.SettingData.setCreditScore(int)
+			fleave r0
+		}
+		
+		delegate void InitAfterCreateModule(Scn.Step.Chara.Obj)
+		{
+			fenter 11, 1, 0
+			ldsrsr r1, r0
+			call   r1, Scn.Step.Chara.SettingUtil.InitEnemyAfterCreateModule(Scn.Step.Chara.Obj)
+			ldsrsr r3, r0
+			calltr r2, Scn.Step.Chara.Obj.gearModelCtrl()
+			ldsr2  r1, r2, r1
+			ldsrca r3, "Common/Hero/Kirby/Whip/Whip"
+			calltv r2, Scn.Step.Chara.GearModelCtrl.init(string)
+			ldsrsr r2, r1
+			ldsrca r3, "Common/Hero/Wester/Whip"
+			calltv r2, Scn.Step.Chara.GearModelCtrl.initAnimPath(string)
+			ldsrsr r3, r1
+			calltr r2, Scn.Step.Chara.GearModelCtrl.model()
+			sppsh  r3, G3D.NodeRef
+			ldsrsr r5, r0
+			calltr r4, Scn.Step.Chara.Obj.model()
+			ldsrca r5, "RHaveL"
+			calltr r3, Scn.Step.CharaUtil.Model.node(string)
+			calltv r2, G3D.StdModel.setParent(const ref G3D.NodeRef)
+			sppop  r3, G3D.NodeRef
+			ldsrsr r2, r1
+			ldsrca r3, "AllL"
+			calltv r2, Scn.Step.Chara.GearModelCtrl.setDefaultBindNode(string)
+			ldsrsr r5, r0
+			calltr r4, Scn.Step.Chara.Obj.model()
+			calltr r3, Scn.Step.CharaUtil.Model.model()
+			calltr r2, GObj.Model.g3dModel()
+			ldsr2  r1, r2, 0x0
+			jmp    loc_0000001e
+			
+			loc_0000001d:
+			inci32 r2
+			
+			loc_0000001e:
+			ldsrsr r5, r1
+			calltr r4, G3D.Model.materialCount()const
+			ltu32  r3, r2, r4
+			jmpneg r3, loc_0000003e
+			sppsh  r3, G3D.ShaderParamRef
+			sppsh  r4, G3D.ShaderParamRef
+			sppsh  r5, G3D.MaterialRef
+			ldsr2  r6, r1, r2
+			calltr r5, G3D.Model.material(uint)
+			ldsrca r6, "TextuurSwitchNoKey"
+			calltr r4, G3D.MaterialRef.shaderParamFind(string)const
+			mcopys r3, r4, G3D.ShaderParamRef
+			sppop  r5, G3D.MaterialRef
+			sppop  r4, G3D.ShaderParamRef
+			ldsrsr r5, r3
+			calltr r4, G3D.ShaderParamRef.isValid()const
+			jmpneg r4, loc_0000003c
+			ldsrsr r4, r3
+			sppsh  r5, Hel.Vector2
+			sppsh  r6, Hel.Vector2
+			sppshz r7, Hel.Vector2
+			ldsr2  r8, r7, 0x0
+			ldsrc4 r10, 0x0
+			calltv r8, Hel.Vector2.this(float,float)
+			mcopys r6, r7, Hel.Vector2
+			sppop  r7, Hel.Vector2
+			mcopys r5, r6, Hel.Vector2
+			sppop  r6, Hel.Vector2
+			calltv r4, G3D.ShaderParamRef.set(const ref Hel.Vector2)
+			sppop  r5, Hel.Vector2
+			
+			loc_0000003c:
+			sppop  r3, G3D.ShaderParamRef
+			jmp    loc_0000001d
+			
+			loc_0000003e:
+			ldsrsr r2, r0
+			sppsh  r3, G3D.MeshRef
+			ldsrsr r7, r2
+			calltr r6, Scn.Step.Chara.Obj.gearModelCtrl()
+			calltr r5, Scn.Step.Chara.GearModelCtrl.model()
+			calltr r4, G3D.StdModel.model()
+			ldsrca r5, "WhipHandM"
+			calltr r3, G3D.Model.mesh(string)
+			ldsrbt r4
+			calltv r3, G3D.MeshRef.setIsVisible(bool)const
+			sppop  r3, G3D.MeshRef
+			sppsh  r3, G3D.MeshRef
+			ldsrsr r7, r2
+			calltr r6, Scn.Step.Chara.Obj.gearModelCtrl()
+			calltr r5, Scn.Step.Chara.GearModelCtrl.model()
+			calltr r4, G3D.StdModel.model()
+			ldsrca r5, "WhipWhipM"
+			calltr r3, G3D.Model.mesh(string)
+			ldsrzr r4
+			calltv r3, G3D.MeshRef.setIsVisible(bool)const
+			sppop  r3, G3D.MeshRef
+			ldsrsr r2, r0
+			calltr r1, Scn.Step.Chara.Obj.vacuumReceiver()
+			ldsrc4 r2, %ELEMENT_ID%
+			calltv r1, Scn.Step.Vacuum.Receiver.setAbilityElement(uint)
+			fleave r0
+		}
+	}
+}
