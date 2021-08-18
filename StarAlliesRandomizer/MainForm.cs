@@ -423,7 +423,7 @@ namespace StarAlliesRandomizer
             Console.WriteLine("Saving Step Mint binary...");
             mintStep.Write(outDir + "\\mint\\Step.bin");
 
-            MessageBox.Show($"Successfully randomized!\nMod-ready files saved to \"{outDir}\"");
+            MessageBox.Show($"Successfully randomized!\nMod-ready files saved to \"{outDir}\"", this.Text, MessageBoxButtons.OK);
         }
 
 
