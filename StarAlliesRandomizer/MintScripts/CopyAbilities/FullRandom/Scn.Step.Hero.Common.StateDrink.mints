@@ -376,12 +376,12 @@ script Scn.Step.Hero.Common.StateDrink
 			ldsrc4 r2, 0.3f
 			callnv r1, App.Random.RandBool(float)
 			jmpneg r1, loc_rollNormalAbilities
-			ldsr2  r2, 56, 68
+			ldsr2  r2, 56, 69
 			callnv r1, App.Random.Rand(int,int)
 			jmp    loc_setAbility
 			
 			loc_rollNormalAbilities:
-			ldsr2  r2, 1, 31
+			ldsr2  r2, 1, 32
 			callnv r1, App.Random.Rand(int,int)
 			eqi32  r2, r1, 29
 			jmppos r2, loc_rollNormalAbilities
