@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -248,17 +249,19 @@ namespace StarAlliesRandomizer
             int rngSeed;
             if (seed.Text != "")
             {
-                if (int.TryParse(seed.Text, out int parsedSeed))
-                    rngSeed = parsedSeed;
+                if (uint.TryParse(seed.Text, out uint parsedSeed))
+                    rngSeed = (int)parsedSeed;
+                else if (uint.TryParse(seed.Text, NumberStyles.HexNumber, NumberFormatInfo.CurrentInfo, out uint hexSeed))
+                    rngSeed = (int)hexSeed;
                 else
                     rngSeed = BitConverter.ToInt32(HashCalculator.Calculate(seed.Text), 0);
             }
             else
                 rngSeed = rng.Next(int.MinValue, int.MaxValue);
 
-            Console.WriteLine("Seed: " + rngSeed);
+            Console.WriteLine("Seed: " + (uint)rngSeed);
 
-            string outDir = ExeDir + $"\\OutFiles\\seed_{rngSeed}";
+            string outDir = ExeDir + $"\\OutFiles\\seed_{(uint)rngSeed}";
 
             if (!File.Exists(romfsPath.Text + "\\mint\\Step.bin"))
             {

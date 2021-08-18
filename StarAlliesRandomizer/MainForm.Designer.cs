@@ -30,6 +30,7 @@ namespace StarAlliesRandomizer
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.romfsPath = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.openRomfs = new System.Windows.Forms.Button();
@@ -49,9 +50,16 @@ namespace StarAlliesRandomizer
             this.allowDreamFriend = new System.Windows.Forms.CheckBox();
             this.randHelpers = new System.Windows.Forms.CheckBox();
             this.randHelperPanel = new System.Windows.Forms.Panel();
+            this.helperAllowElement = new System.Windows.Forms.CheckBox();
             this.helperAllowDreamFriend = new System.Windows.Forms.CheckBox();
             this.randAttacks = new System.Windows.Forms.CheckBox();
             this.randAttackPanel = new System.Windows.Forms.Panel();
+            this.doLimitKb = new System.Windows.Forms.CheckBox();
+            this.limitKb = new System.Windows.Forms.NumericUpDown();
+            this.doLimitAngle = new System.Windows.Forms.CheckBox();
+            this.limitAngle = new System.Windows.Forms.NumericUpDown();
+            this.doLimitDmg = new System.Windows.Forms.CheckBox();
+            this.limitDmg = new System.Windows.Forms.NumericUpDown();
             this.atkRandColl = new System.Windows.Forms.CheckBox();
             this.atkRandBoss = new System.Windows.Forms.CheckBox();
             this.atkRandMBoss = new System.Windows.Forms.CheckBox();
@@ -66,21 +74,14 @@ namespace StarAlliesRandomizer
             this.seed = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.limitDmg = new System.Windows.Forms.NumericUpDown();
-            this.doLimitDmg = new System.Windows.Forms.CheckBox();
-            this.doLimitAngle = new System.Windows.Forms.CheckBox();
-            this.limitAngle = new System.Windows.Forms.NumericUpDown();
-            this.doLimitKb = new System.Windows.Forms.CheckBox();
-            this.limitKb = new System.Windows.Forms.NumericUpDown();
-            this.helperAllowElement = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.randAbilityPanel.SuspendLayout();
             this.randHelperPanel.SuspendLayout();
             this.randAttackPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.limitDmg)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.limitAngle)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.limitKb)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.limitAngle)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.limitDmg)).BeginInit();
             this.SuspendLayout();
             // 
             // romfsPath
@@ -175,7 +176,7 @@ namespace StarAlliesRandomizer
             this.inclDropStars.TabIndex = 9;
             this.inclDropStars.Text = "Include Drop Stars";
             this.toolTip.SetToolTip(this.inclDropStars, "Also known as \"Recoil Stars\".\r\nAll stars dropped by enemies will have a random\r\nC" +
-        "opy Ability and corresponding color.");
+        "opy Ability and corresponding color.\r\nUses the game\'s random number generator.");
             this.inclDropStars.UseVisualStyleBackColor = true;
             // 
             // inclEnemyObj
@@ -310,6 +311,18 @@ namespace StarAlliesRandomizer
             this.randHelperPanel.TabIndex = 3;
             this.randHelperPanel.Visible = false;
             // 
+            // helperAllowElement
+            // 
+            this.helperAllowElement.AutoSize = true;
+            this.helperAllowElement.Location = new System.Drawing.Point(18, 20);
+            this.helperAllowElement.Name = "helperAllowElement";
+            this.helperAllowElement.Size = new System.Drawing.Size(97, 17);
+            this.helperAllowElement.TabIndex = 1;
+            this.helperAllowElement.Text = "Allow Elements";
+            this.toolTip.SetToolTip(this.helperAllowElement, "Copy Abilities that cannot normally gain elements\r\ncan have them using this, but " +
+        "the majority of them\r\ndon\'t do anything.");
+            this.helperAllowElement.UseVisualStyleBackColor = true;
+            // 
             // helperAllowDreamFriend
             // 
             this.helperAllowDreamFriend.AutoSize = true;
@@ -357,6 +370,101 @@ namespace StarAlliesRandomizer
             this.randAttackPanel.Size = new System.Drawing.Size(475, 127);
             this.randAttackPanel.TabIndex = 5;
             this.randAttackPanel.Visible = false;
+            // 
+            // doLimitKb
+            // 
+            this.doLimitKb.AutoSize = true;
+            this.doLimitKb.Checked = true;
+            this.doLimitKb.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.doLimitKb.Enabled = false;
+            this.doLimitKb.Location = new System.Drawing.Point(251, 98);
+            this.doLimitKb.Name = "doLimitKb";
+            this.doLimitKb.Size = new System.Drawing.Size(105, 17);
+            this.doLimitKb.TabIndex = 19;
+            this.doLimitKb.Text = "Limit Knockback";
+            this.doLimitKb.UseVisualStyleBackColor = true;
+            // 
+            // limitKb
+            // 
+            this.limitKb.DecimalPlaces = 3;
+            this.limitKb.Enabled = false;
+            this.limitKb.Location = new System.Drawing.Point(362, 98);
+            this.limitKb.Maximum = new decimal(new int[] {
+            2147483647,
+            0,
+            0,
+            0});
+            this.limitKb.Name = "limitKb";
+            this.limitKb.Size = new System.Drawing.Size(77, 20);
+            this.limitKb.TabIndex = 18;
+            this.limitKb.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // doLimitAngle
+            // 
+            this.doLimitAngle.AutoSize = true;
+            this.doLimitAngle.Enabled = false;
+            this.doLimitAngle.Location = new System.Drawing.Point(251, 79);
+            this.doLimitAngle.Name = "doLimitAngle";
+            this.doLimitAngle.Size = new System.Drawing.Size(82, 17);
+            this.doLimitAngle.TabIndex = 17;
+            this.doLimitAngle.Text = "Limit Angles";
+            this.doLimitAngle.UseVisualStyleBackColor = true;
+            // 
+            // limitAngle
+            // 
+            this.limitAngle.DecimalPlaces = 1;
+            this.limitAngle.Enabled = false;
+            this.limitAngle.Location = new System.Drawing.Point(362, 77);
+            this.limitAngle.Maximum = new decimal(new int[] {
+            2147483647,
+            0,
+            0,
+            0});
+            this.limitAngle.Name = "limitAngle";
+            this.limitAngle.Size = new System.Drawing.Size(77, 20);
+            this.limitAngle.TabIndex = 16;
+            this.limitAngle.Value = new decimal(new int[] {
+            360,
+            0,
+            0,
+            0});
+            // 
+            // doLimitDmg
+            // 
+            this.doLimitDmg.AutoSize = true;
+            this.doLimitDmg.Checked = true;
+            this.doLimitDmg.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.doLimitDmg.Enabled = false;
+            this.doLimitDmg.Location = new System.Drawing.Point(18, 98);
+            this.doLimitDmg.Name = "doLimitDmg";
+            this.doLimitDmg.Size = new System.Drawing.Size(90, 17);
+            this.doLimitDmg.TabIndex = 15;
+            this.doLimitDmg.Text = "Limit Damage";
+            this.toolTip.SetToolTip(this.doLimitDmg, "If left unchecked, damage can be all the way up to\r\nthe signed 32-bit integer lim" +
+        "it (2,147,483,647)");
+            this.doLimitDmg.UseVisualStyleBackColor = true;
+            // 
+            // limitDmg
+            // 
+            this.limitDmg.Enabled = false;
+            this.limitDmg.Location = new System.Drawing.Point(129, 97);
+            this.limitDmg.Maximum = new decimal(new int[] {
+            2147483647,
+            0,
+            0,
+            0});
+            this.limitDmg.Name = "limitDmg";
+            this.limitDmg.Size = new System.Drawing.Size(77, 20);
+            this.limitDmg.TabIndex = 14;
+            this.limitDmg.Value = new decimal(new int[] {
+            240,
+            0,
+            0,
+            0});
             // 
             // atkRandColl
             // 
@@ -485,7 +593,7 @@ namespace StarAlliesRandomizer
             this.seed.Name = "seed";
             this.seed.Size = new System.Drawing.Size(383, 20);
             this.seed.TabIndex = 6;
-            this.toolTip.SetToolTip(this.seed, "The seed supports both number and text seeds");
+            this.toolTip.SetToolTip(this.seed, resources.GetString("seed.ToolTip"));
             // 
             // label2
             // 
@@ -496,112 +604,11 @@ namespace StarAlliesRandomizer
             this.label2.TabIndex = 7;
             this.label2.Text = "Seed";
             // 
-            // limitDmg
+            // toolTip
             // 
-            this.limitDmg.Enabled = false;
-            this.limitDmg.Location = new System.Drawing.Point(129, 97);
-            this.limitDmg.Maximum = new decimal(new int[] {
-            2147483647,
-            0,
-            0,
-            0});
-            this.limitDmg.Name = "limitDmg";
-            this.limitDmg.Size = new System.Drawing.Size(77, 20);
-            this.limitDmg.TabIndex = 14;
-            this.limitDmg.Value = new decimal(new int[] {
-            240,
-            0,
-            0,
-            0});
-            // 
-            // doLimitDmg
-            // 
-            this.doLimitDmg.AutoSize = true;
-            this.doLimitDmg.Checked = true;
-            this.doLimitDmg.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.doLimitDmg.Enabled = false;
-            this.doLimitDmg.Location = new System.Drawing.Point(18, 98);
-            this.doLimitDmg.Name = "doLimitDmg";
-            this.doLimitDmg.Size = new System.Drawing.Size(90, 17);
-            this.doLimitDmg.TabIndex = 15;
-            this.doLimitDmg.Text = "Limit Damage";
-            this.toolTip.SetToolTip(this.doLimitDmg, "If left unchecked, damage can be all the way up to\r\nthe signed 32-bit integer lim" +
-        "it (2,147,483,647)");
-            this.doLimitDmg.UseVisualStyleBackColor = true;
-            // 
-            // doLimitAngle
-            // 
-            this.doLimitAngle.AutoSize = true;
-            this.doLimitAngle.Enabled = false;
-            this.doLimitAngle.Location = new System.Drawing.Point(251, 79);
-            this.doLimitAngle.Name = "doLimitAngle";
-            this.doLimitAngle.Size = new System.Drawing.Size(82, 17);
-            this.doLimitAngle.TabIndex = 17;
-            this.doLimitAngle.Text = "Limit Angles";
-            this.doLimitAngle.UseVisualStyleBackColor = true;
-            // 
-            // limitAngle
-            // 
-            this.limitAngle.DecimalPlaces = 1;
-            this.limitAngle.Enabled = false;
-            this.limitAngle.Location = new System.Drawing.Point(362, 77);
-            this.limitAngle.Maximum = new decimal(new int[] {
-            2147483647,
-            0,
-            0,
-            0});
-            this.limitAngle.Name = "limitAngle";
-            this.limitAngle.Size = new System.Drawing.Size(77, 20);
-            this.limitAngle.TabIndex = 16;
-            this.limitAngle.Value = new decimal(new int[] {
-            360,
-            0,
-            0,
-            0});
-            // 
-            // doLimitKb
-            // 
-            this.doLimitKb.AutoSize = true;
-            this.doLimitKb.Checked = true;
-            this.doLimitKb.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.doLimitKb.Enabled = false;
-            this.doLimitKb.Location = new System.Drawing.Point(251, 98);
-            this.doLimitKb.Name = "doLimitKb";
-            this.doLimitKb.Size = new System.Drawing.Size(105, 17);
-            this.doLimitKb.TabIndex = 19;
-            this.doLimitKb.Text = "Limit Knockback";
-            this.doLimitKb.UseVisualStyleBackColor = true;
-            // 
-            // limitKb
-            // 
-            this.limitKb.DecimalPlaces = 3;
-            this.limitKb.Enabled = false;
-            this.limitKb.Location = new System.Drawing.Point(362, 98);
-            this.limitKb.Maximum = new decimal(new int[] {
-            2147483647,
-            0,
-            0,
-            0});
-            this.limitKb.Name = "limitKb";
-            this.limitKb.Size = new System.Drawing.Size(77, 20);
-            this.limitKb.TabIndex = 18;
-            this.limitKb.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            // 
-            // helperAllowElement
-            // 
-            this.helperAllowElement.AutoSize = true;
-            this.helperAllowElement.Location = new System.Drawing.Point(18, 20);
-            this.helperAllowElement.Name = "helperAllowElement";
-            this.helperAllowElement.Size = new System.Drawing.Size(97, 17);
-            this.helperAllowElement.TabIndex = 1;
-            this.helperAllowElement.Text = "Allow Elements";
-            this.toolTip.SetToolTip(this.helperAllowElement, "Copy Abilities that cannot normally gain elements\r\ncan have them using this, but " +
-        "the majority of them\r\ndon\'t do anything.");
-            this.helperAllowElement.UseVisualStyleBackColor = true;
+            this.toolTip.AutoPopDelay = 10000;
+            this.toolTip.InitialDelay = 500;
+            this.toolTip.ReshowDelay = 100;
             // 
             // MainForm
             // 
@@ -629,9 +636,9 @@ namespace StarAlliesRandomizer
             this.randHelperPanel.PerformLayout();
             this.randAttackPanel.ResumeLayout(false);
             this.randAttackPanel.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.limitDmg)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.limitAngle)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.limitKb)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.limitAngle)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.limitDmg)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
