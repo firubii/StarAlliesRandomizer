@@ -27,6 +27,6 @@ This directory is saved in `Config.xml` when the program exits and is automatica
 3. Mess with the program's options and click the `Randomize` button at the bottom of the program. This will take a small bit of time to complete.
 When this has completed, the files are outputted to `OutFiles\seed_<seed>`, already formatted for use with LayeredFS with Atmosphère, Yuzu, or Ryujinx.
 
-Seeds can be full numbers from 0 to 2,147,483,647 or text strings such as "Super_Mario 64".
+Seeds can be full numbers from 0 to 4,294,967,295, hexadecimal numbers from 0 to FFFFFFF or text strings such as "Super_Mario 64".
 
 For information about the randomizer options, hover over one for a brief description.
